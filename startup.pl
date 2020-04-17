@@ -10,6 +10,15 @@ be made executable started with ./startup.pl
 % JW: the garp sources are ISO-Latin-1 while most modern machines use
 % UTF-8 these days.
 :-set_prolog_flag(encoding, iso_latin_1).
+% JW: Garp suffers from many _semantic_ singletons.  This warning was
+% added long after Garp was written.  If anyone wishes to do development
+% on Garp, please delete this declaration and fix the warnings.  In our
+% experience the vast majority of warnings are in fact programming
+% errors.
+:-style_check(-singleton).
+% JW: This check triggers one warning that is almost surely an error in
+% Garp in engine/transitions.pl:4800
+:-style_check(-no_effect).
 :-load_files([library(pce)], [if(not_loaded), silent(true)]).
 
 %mode is debug or nodebug
