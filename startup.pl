@@ -7,6 +7,9 @@ be made executable started with ./startup.pl
 #!/usr/bin/pl -G32m -T32m -L16m -si
 */
 
+% JW: the garp sources are ISO-Latin-1 while most modern machines use
+% UTF-8 these days.
+:-set_prolog_flag(encoding, iso_latin_1).
 :-load_files([library(pce)], [if(not_loaded), silent(true)]).
 
 %mode is debug or nodebug
