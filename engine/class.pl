@@ -43,47 +43,6 @@ do_action(_, ExpectedResult):-
 % ---------------------------------------------------------------------
 
 /*
-% c prolog : back track do_action if after Level recursive calls
-% not set to 1 upon first call of class yet
-
-class(Cio, _):-
-    once(retract(backtrack_level(Level, Old))),
-    New is Old + 1,
-    (New == Level ->
-      asserta(backtrack_level(Level, 1))
-      ;
-      asserta(backtrack_level(Level, New)),
-      fail
-    ),
-    recorda(cio_result, Cout/class(Cio, Cout)),
-    !,
-    fail.
-*/
-
-% swi prolog : back track do_action if running out of global stack
-
-class(Cio, _):-
-    need_global(NG),
-    statistics(globallimit, G),
-    statistics(globalused, U),
-    Free is G - U,
-    Free < NG,
-    recorda(cio_result, Cout/class(Cio, Cout)),
-    !,
-    fail.
-
-% swi prolog : back track do_action if running out of trail stack
-class(Cio, _):-
-    need_trail(NT),
-    statistics(traillimit, T),
-    statistics(trailused, U),
-    Free is T - U,
-    Free < NT,
-    recorda(cio_result, Cout/class(Cio, Cout)),
-    !,
-    fail.
-
-/*
  *  no uninspected se or ss, no hypotheses, no assumable ss
  */
 

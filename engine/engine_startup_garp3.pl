@@ -109,25 +109,6 @@ get_arch_path(Archname,LibDir,ArchPath):-
    , engine(engine_content_api)
    ].
 
-/*
-sihw: need_global and need_trail facts are used in class.pl, so we just keep the old values here,
- looks like a bit outdated way of memmanagement, from times before gigabytes of virtual mem.
- Maybe one day rewrite class.pl?
-*/
-
-/* garp: during specification we check if enough global or trail stack is left
-   for the next recursive (deterministic) call of 'class'
-   if not results are stored in the database and backtracking to the
-   second clause of do_action is forced
-   These facts specify how much stack a single recursive level of 'class'
-   will need (an estimate ofcourse).
-*/
-
-% medium
-need_global(70000).
-need_trail(60000).
-
-
 % maintenance: readable trace
 % FL July 2004: with the quitracer in prolog
 % the following portray settings are more useful
