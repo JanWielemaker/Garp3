@@ -1,0 +1,27 @@
+The files in the directory and below are the source files for Garp 2.01, which is the engine in garp3. They were not changed for usage by garp3. We did move all the files we do not need to the folder "standalone".
+
+The loadfile for Garp is load.pl. This one is not used by garp3, which uses engine_startup_garp3.pl instead. 
+
+Files that were substituted (they are still there, but we use a different version):
+load.pl -> we use engine_startup_garp3.pl
+interface.pl -> we use interface_garp3.pl
+grprefs.pl -> we use alg_assumptions_garp3.pl
+pllib.pl -> we user pllib_garp3.pl (and moved some predicates to our global helpers, to keep it out of modularisation)
+
+To change the garp version used:
+- rename this directory to engine.bak
+- create a new directory named engine
+- copy all the files and folders in the program_files folder of the standalone garp version to the new directory
+- copy all files that named <something>_garp3.pl  from engine.bak to engine.
+[these files are only used by garp3 and are based on files in the standalone version. So they might or might not work with a new standalone version].
+- You might move or remove the files not needed by garp3 (see the standalone folder in engine.bak).
+
+To run the legacy garp version (tricky):
+- Install a standalone version somewhere else, works better than to try the tricky stuff.
+
+We do not use the following source files at all:
+- terminal.pl [helpers for display of bold/italic lines etc. on a legacy tty]
+
+dynamic predicates / facts that are no longer used (and not declared in startup_garp3.pl): 
+- current_library/1
+- setting(use_shell, true/false)

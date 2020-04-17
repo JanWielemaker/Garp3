@@ -1,0 +1,38 @@
+#!/bin/csh
+#   File:    build
+#   Purpose: This file creates an executable called 'garp'
+#            and puts in the directory '../executable'
+#   Author:  Bert Bredeweg
+#   Date:    Mar 14 1990
+
+# The procedure below makes an executable that is
+# independent of the type of machine it was created on
+# (either sparc or mc68020)
+
+# If machine type is mc68020
+if ( `mach` =~ mc68020 ) then
+    # move pl-bit.c and makefile to sun3 directory
+    mv pl-bit.c sun3/pl-bit.c
+    mv makefile sun3/makefile
+    # go to sun3 directory and execute the makefile,
+    # this will result in an up to date file pl-bit.o
+    cd sun3/
+    make -f makefile
+    # move pl-bit.c (and 'yourself') back to where it came from
+    mv pl-bit.c ../
+    mv makefile ../makefile
+    cd ..
+# as above but now for machine type sparc and directory sun4
+else if ( `mach` =~ sparc ) then
+    mv pl-bit.c sun4/pl-bit.c
+    mv makefile sun4/makefile
+    cd sun4/
+    make -f makefile
+    mv pl-bit.c ../
+    mv makefile ../makefile
+    cd ..
+endif
+
+# build the executable and put it in the executable directory
+
+xpce -g make,go -o ../executable/pce_garp -c load.pl

@@ -1,0 +1,169 @@
+/*  File:    main_help
+    Purpose: Explane, give help about, GARP
+    Author:  Martin Reinders & Bert Bredeweg
+    Date:    August 1989
+
+    Copyright (c) 1989, University of Amsterdam. All rights reserved.
+
+*/
+			----------
+			menu input
+			----------
+
+At the > prompt, GARP expects input of a single option. At the >> prompt
+one or more options are expected, separated by white space.
+
+At any prompt a shell command, preceded by a ! is possible. After
+execution the menu is redrawn.
+
+Often only a list of options is presented. Entering a ? will result
+in a full description of those options.
+
+
+The main menu is preceded by an optional diagram of parameter values
+for selected parameters and a state-transition table.
+
+The visible parameters can be selected with the 'tv' (toggle visible) option.
+
+			-------------
+			value diagram
+			-------------
+
+A value diagram shows for all states the parameters quantity space,
+the value of the parameter and the direction in which the value is
+changing. A typical diagram is:
+
+pressure(water1)
+/ \  / \  / \
+|-|  | |  | |  plus
+| |  | |  | |  
+[ ]  [?]  [ ]  zero
+| |  | |  | |  
+| |  | |  |0|  min
+\ /  \ /  \ /  
+
+ 1    2    3
+
+meaning: the pressure of system element water1 is plus and decreasing
+in state 1, zero and not influenced in state 2 and min and not changing
+in state 3. A point interval is represented as [ ]. Intervals between
+two points, extending to plus/min infinity are represented resp. as:
+
+| |	/ \	| |
+| |	| |	| |
+| |	| |	\ /
+
+
+			----------------------
+			State-transition table
+			----------------------
+
+The transition table shows states (columns) and transitions between
+states (rows).
+
+
+Transition table symbols:
+
+	+	The transition has status terminated
+		( transition rules have been applied on its state )
+	=	The transition has status ordered
+		( precedence rules have been applied on its state )
+	o---->	The transition is closed
+		( a transition to another state was found )
+	*---->	The transition is closed
+		( the transition is to the state itself and to another state)
+	x	No transition to another state was found as a result
+		of applying the ordered termination
+
+A state number is followed by a ! if the transition to another state
+is immediate.
+
+			-----------------
+			Main menu options
+			-----------------
+
+Except for the actions explained below, the following options are possible:
+
+-	One or more state numbers:
+		leads to a menu for the actions
+		-	show
+		-	terminate
+		-	order
+		-	close
+		-	undo terminations 
+		on the indicated states.
+
+-	A transition
+		shows the transition
+		if it is ordered, a close option is possible
+		if it is closed a undo close option is possible.
+
+Closing a state will close all ordered transitions.
+Closing a transtion will close that transtion only.
+The actions terminate and order are only possible for one or more states.
+The undo termination option sets the status of the termination back
+to ordered and removes successor states if they have no other predecessors.
+
+Labeled main menu options:
+
+	ACTIONS
+
+new	choose a new input model and compute all its interpetations
+all	terminate, order and close all states and any successor
+ta	terminate all interpreted states
+oa	order all terminated states
+ca	close all ordered states
+cs	redo the syntactic and partial semantic check on the
+	system structure library (which is done automatically when
+	reading the library)
+ci	idem for the input systems
+q	quit
+
+	SAVE/LOAD
+
+s	save current state
+	a file is created that contains all necessary information for
+	proceeding from the current state. However, this is not
+	a save of the complete memory state. The user must make sure
+	that the same library files are loaded when proceeding.
+l	load a previously saved state
+
+	SHOW
+
+sa	show all: (some items of) each state description
+sl	show library: one or more system structures
+si	show input system: one or more input systems
+hi	show isa hierarchy
+hs	show system structures isa hierarchy
+ha	show system structures 'applies to' hierarchy
+	( or consists_of )
+tv	toggle parameter values shown preceding the main menu
+table	show selected parameter values and the state-transiton table
+	the major difference with the same action that precedes
+	the main menu is, that it is appended to a protocol (if active)
+	and shown through the pager
+o	toggle trace options (for the various tasks)
+
+	EDIT
+
+el	edit library. A menu asks to choose a system structure.
+	If your favourite editor is top (emacs?) it will find that
+	system structure in file: your_libraray/library
+ei	edit input sytem. As edit library. (file: your_library/input_system)
+es	edit semantic network (file: your_library/isa)
+er	edit rules for determining state transformation
+	(file: your_library/rules)
+
+	PROTOCOL
+
+p	protocol on. A non existing file protocolX is created.
+	Except for the menus, any output is also written to that file,
+	including the output normally shown by a pager.
+	This is different from normal prolog protocolling.
+np	protocol off.
+
+
+			-------------
+			Trace Options
+			-------------
+

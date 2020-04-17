@@ -1,0 +1,1842 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY qr		"http://www.science.uva.nl/~jliem/ontologies/QRvocabulary.owl#" >
+    <!ENTITY owl     	"http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd		"http://www.w3.org/2001/XMLSchema#" >
+] >
+
+<rdf:RDF
+    xmlns	 ="&qr;"
+    xmlns:qr	 ="&qr;"
+    xml:base	 ="&qr;"
+    xmlns:owl	 ="&owl;"
+    xmlns:rdf	 ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs	 ="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd	 ="http://www.w3.org/2001/XMLSchema#">
+
+    <owl:Ontology rdf:about="">
+	<rdfs:comment>A Qualitative Reasoning Ingredients Ontology</rdfs:comment>
+	<owl:versionInfo>Version 2</owl:versionInfo>
+	<!-- 
+	<owl:priorVersion rdf:resource="http://phyro.mine.nu/animal1.xml"/> -->
+	<rdfs:label xml:lang="en">Qualitative Reasoning Ingredients Ontology</rdfs:label>
+	<rdfs:label xml:lang="nl">Qualitatief Redeneren Ingredienten Ontologie</rdfs:label>
+	<!-- <owl:imports rdf:resource="http://phyro.mine.nu/color.xml"/> -->
+    </owl:Ontology>
+
+    
+    <owl:Class rdf:ID="QualitativeModelIngredient">
+	<rdfs:label xml:lang="en">Qualitative Modeling Ingredient</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Qualitative Modeling Ingredients are either Basic Building Blocks or Aggregates.
+	</rdfs:comment>
+	<owl:unionOf rdf:parseType="Collection">
+	    <owl:Class rdf:about="#BuildingBlock" />
+	    <owl:Class rdf:about="#Aggregate" />
+	</owl:unionOf>
+    </owl:Class>
+
+    <owl:Class rdf:ID="BuildingBlock">
+	<rdfs:label xml:lang="en">Basic Building Block</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Basic Building Blocks are single model ingredients.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#QualitativeModelIngredient" />
+	<owl:disjointWith rdf:resource="#Aggregate" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Aggregate">
+	<rdfs:label xml:lang="en">Aggregate</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Aggregates are composed out of multiple Basic Building Blocks.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#QualitativeModelIngredient" />
+	<owl:disjointWith rdf:resource="#BuildingBlock" />
+    </owl:Class>
+    
+    <owl:Class rdf:ID="StructuralBuildingBlock">
+	<rdfs:label xml:lang="en">Structural Ingredient</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Structural Ingredients describe the structure of a modeled system.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#BuildingBlock" />
+	<owl:disjointWith rdf:resource="#Assumption" />
+	<owl:disjointWith rdf:resource="#BehaviouralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Identity" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Identity">
+    <rdfs:label xml:lang="en">Identity</rdfs:label>
+    <rdfs:comment xml:lang="en">
+        An identity indicates that two model ingredients are the same individual.
+    </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#BuildingBlock" />
+    <owl:disjointWith rdf:resource="#StructuralBuildingBlock" />
+    <owl:disjointWith rdf:resource="#BehaviouralBuildingBlock" />
+    <owl:disjointWith rdf:resource="#Assumption" />
+    </owl:Class>
+
+<!--
+    <owl:Class rdf:ID="AssumptionType">
+	<rdfs:label xml:lang="en">Assumption Type</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Assumption Type is the set of possible types of assumptions.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#BuildingBlock" />
+	<owl:disjointWith rdf:resource="#StructuralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#BehaviouralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Identity" />
+	</owl:Class>
+-->
+
+    <owl:Class rdf:ID="Assumption">
+	<rdfs:label xml:lang="en">Assumption</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    An assumption is an assertion that something is true
+	</rdfs:comment>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+	        <owl:onProperty rdf:resource="&qr;isAssumptionRegarding" />
+		<owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+		>1</owl:maxCardinality>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+	        <owl:onProperty rdf:resource="&qr;isAssumptionRegarding" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+		        <owl:unionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="&qr;Entity" />
+			    <owl:Class rdf:about="&qr;Agent" />
+			</owl:unionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf rdf:resource="#BuildingBlock" />
+	<owl:disjointWith rdf:resource="#StructuralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#BehaviouralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Identity" />
+	<!--<rdfs:subClassOf rdf:resource="#AssumptionType" />-->
+    </owl:Class>
+    
+    <owl:ObjectProperty rdf:ID="isAssumptionRegarding" />
+    
+    <owl:Class rdf:ID="BehaviouralBuildingBlock">
+	<rdfs:label xml:lang="en">Behavioural Building Block</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Behavioural ingredients describe the behavioural aspects of a modeled system.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#BuildingBlock" />
+	<owl:disjointWith rdf:resource="#Assumption" />
+	<owl:disjointWith rdf:resource="#StructuralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Identity" />
+    </owl:Class>
+
+    <owl:ObjectProperty rdf:ID="hasIdentity" />
+    <owl:ObjectProperty rdf:ID="hasIdentityTarget" />
+    
+    <owl:Class rdf:ID="Dependency">
+	<rdfs:label xml:lang="en">Dependency</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Dependencies describe the behavioural relations between behavioural ingredients.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#BehaviouralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Derivative" />
+	<owl:disjointWith rdf:resource="#Magnitude" />
+	<owl:disjointWith rdf:resource="#QualitativeValue" />
+	<owl:disjointWith rdf:resource="#Quantity" />
+	<owl:disjointWith rdf:resource="#QuantitySpace" />
+	<owl:disjointWith rdf:resource="#QuantityAssumption" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="MathematicalDependency">
+	<rdfs:label xml:lang="en">Mathematical</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Mathematical dependencies describe the mathematical relations between behavioural
+	    ingredients.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Dependency" />
+	<owl:disjointWith rdf:resource="#Correspondence" />
+	<owl:disjointWith rdf:resource="#CausalDependency" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Entity">
+	<rdfs:label xml:lang="en">Entity</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Entities are the structural ingredients a system is composed of.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#StructuralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Agent" />
+	<owl:disjointWith rdf:resource="#Configuration" />
+	<owl:disjointWith rdf:resource="#Attribute" />
+	<owl:disjointWith rdf:resource="#AttributeValue" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Agent">
+	<rdfs:label xml:lang="en">Agent</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Agents are not part of the inherent structure of the system, but can influence the
+	    system.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#StructuralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Entity" />
+	<owl:disjointWith rdf:resource="#Configuration" />
+	<owl:disjointWith rdf:resource="#Attribute" />
+	<owl:disjointWith rdf:resource="#AttributeValue" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Configuration">
+	<rdfs:label xml:lang="en">Configuration</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Configurations describe the relations between structural ingredients.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#StructuralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Agent" />
+	<owl:disjointWith rdf:resource="#Entity" />
+	<owl:disjointWith rdf:resource="#Attribute" />
+	<owl:disjointWith rdf:resource="#AttributeValue" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Attribute">
+    	<rdfs:label xml:lang="en">Attribute</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Attributes describe the properties of entities and agents.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#StructuralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Agent" />
+	<owl:disjointWith rdf:resource="#Configuration" />
+	<owl:disjointWith rdf:resource="#Entity" />
+	<owl:disjointWith rdf:resource="#AttributeValue" />
+    </owl:Class>
+    
+    <owl:Class rdf:ID="AttributeValue">
+    	<rdfs:label xml:lang="en">Attribute Value</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    AttributeValues are the possible values of attributes.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#StructuralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Agent" />
+	<owl:disjointWith rdf:resource="#Configuration" />
+	<owl:disjointWith rdf:resource="#Attribute" />
+	<owl:disjointWith rdf:resource="#Entity" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Quantity">
+    	<rdfs:label xml:lang="en">Quantity</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Quantities are the changable features of an entity of agent.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#BehaviouralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Magnitude" />
+	<owl:disjointWith rdf:resource="#Derivative" />
+	<owl:disjointWith rdf:resource="#QuantitySpace" />
+	<owl:disjointWith rdf:resource="#QualitativeValue" />
+	<owl:disjointWith rdf:resource="#Dependency" />
+	<owl:disjointWith rdf:resource="#QuantityAssumption" />
+    </owl:Class>
+
+    <!-- Mathematics: A number assigned to a quantity so that it may be compared with other
+    quantities. -->
+    <owl:Class rdf:ID="Magnitude">
+	<rdfs:label xml:lang="en">Magnitude</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    The magnitude is the zero-derivative of a quantity. A value can be assigned to it so it
+	    can be compared to other quantities.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#BehaviouralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Quantity" />
+	<owl:disjointWith rdf:resource="#Derivative" />
+	<owl:disjointWith rdf:resource="#QuantitySpace" />
+	<owl:disjointWith rdf:resource="#QualitativeValue" />
+	<owl:disjointWith rdf:resource="#Dependency" />
+	<owl:disjointWith rdf:resource="#QuantityAssumption" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Derivative">
+	<rdfs:label xml:lang="en">Derivative</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    The derivative is the first derivative of a quantity, indicating if the quantity is
+	    increasing, decreasing or stable. A value can be assigned to it so it can be compared to
+	    other quantities.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#BehaviouralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Magnitude" />
+	<owl:disjointWith rdf:resource="#Quantity" />
+	<owl:disjointWith rdf:resource="#QuantitySpace" />
+	<owl:disjointWith rdf:resource="#QualitativeValue" />
+	<owl:disjointWith rdf:resource="#Dependency" />
+	<owl:disjointWith rdf:resource="#QuantityAssumption" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="QuantitySpace">
+	<rdfs:label xml:lang="en">Quantity Space</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    A quantity space is a list of possible values the magnitude or derivative of a quantity
+	    can become.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#BehaviouralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Magnitude" />
+	<owl:disjointWith rdf:resource="#Derivative" />
+	<owl:disjointWith rdf:resource="#Quantity" />
+	<owl:disjointWith rdf:resource="#QualitativeValue" />
+	<owl:disjointWith rdf:resource="#Dependency" />
+	<owl:disjointWith rdf:resource="#QuantityAssumption" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="QualitativeValue">
+	<rdfs:label xml:lang="en">Qualitative Value</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    A qualitative value is either a point or interval which can become the value of the
+	    magnitude or derivative of a quantity.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#BehaviouralBuildingBlock" />
+	<owl:disjointWith rdf:resource="#Magnitude" />
+	<owl:disjointWith rdf:resource="#Derivative" />
+	<owl:disjointWith rdf:resource="#Quantity" />
+	<owl:disjointWith rdf:resource="#QuantitySpace" />
+	<owl:disjointWith rdf:resource="#Dependency" />
+	<owl:disjointWith rdf:resource="#QuantityAssumption" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Point">
+	<rdfs:label xml:lang="en">Point</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    A point is a qualitative value.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#QualitativeValue" />
+	<owl:disjointWith rdf:resource="#Interval" />
+    </owl:Class>
+
+    <!--
+    <owl:Class rdf:ID="Zero">
+        <rdfs:label>Zero</rdfs:label>
+        <rdfs:comment>The qualitative value Zero (a Point) is defined in the QR Vocabulary</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Point" />
+    </owl:Class>
+    -->
+
+    <owl:Class rdf:ID="Interval">
+	<rdfs:label xml:lang="en">Point</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    An interval is a qualitative value.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#QualitativeValue" />
+	<owl:disjointWith rdf:resource="#Point" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="CausalDependency">
+    	<rdfs:label xml:lang="en">Causal Dependency</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Causal dependencies are dependencies indicate which quantities are proportional,
+	    and which ones influence each other.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Dependency" />
+	<owl:disjointWith rdf:resource="#Correspondence" />
+	<owl:disjointWith rdf:resource="#MathematicalDependency" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Proportionality">
+    	<rdfs:label xml:lang="en">Proportionality</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Proportionalities indicate which quantity changes if the other changes.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#CausalDependency" />
+	<owl:disjointWith rdf:resource="#Influence" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="PositiveProportionality">
+    	<rdfs:label xml:lang="en">Positive Proportionality</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    A positive proportionality indicates that the target quantity increases if the origin
+	    quantity increases, and decreases if the origin quantity descreases.  
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Proportionality" />
+	<owl:disjointWith rdf:resource="#NegativeProportionality" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="NegativeProportionality">
+    	<rdfs:label xml:lang="en">Negative Proportionality</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    A negative proportionality indicates that the target quantity decreases if the origin
+	    quantity increases, and increases if the origin quantity decreases.  
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Proportionality" />
+	<owl:disjointWith rdf:resource="#PositiveProportionality" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Influence">
+    	<rdfs:label xml:lang="en">Influence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Influences indicate that the target quantity changes if magnitude of the origin quantity
+	    is not zero.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#CausalDependency" />
+	<owl:disjointWith rdf:resource="#Proportionality" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="PositiveInfluence">
+    	<rdfs:label xml:lang="en">Positive Influence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    A positive influence indicates that the target quantity increases if the magnitude of
+	    the origin quantity is greater than zero, and decreases if it less than zero.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Influence" />
+	<owl:disjointWith rdf:resource="#NegativeInfluence" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="NegativeInfluence">
+    	<rdfs:label xml:lang="en">Negative Influence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    A negative influence indicates that the target quantity decreases if the magnitude of
+	    the origin quantity is greater than zero, and increases if it less than zero.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Influence" />
+	<owl:disjointWith rdf:resource="#PositiveInfluence" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Correspondence">
+    	<rdfs:label xml:lang="en">Correspondence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Correspondences specify that values occur simultaniously. 
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Dependency" />
+    <rdfs:subClassOf>
+        <owl:Restriction>
+            <owl:onProperty rdf:resource="&qr;isDirected" />
+            <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:maxCardinality>
+        </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+        <owl:Restriction>
+            <owl:onProperty rdf:resource="&qr;isInverted" />
+            <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:maxCardinality>
+        </owl:Restriction>
+    </rdfs:subClassOf>
+	<owl:disjointWith rdf:resource="#MathematicalDependency" />
+	<owl:disjointWith rdf:resource="#CausalDependency" />
+    </owl:Class>
+
+    <owl:DatatypeProperty rdf:ID="isDirected" />
+    <owl:DatatypeProperty rdf:ID="isInverted" />
+
+
+    <owl:Class rdf:ID="ValueCorrespondence">
+    	<rdfs:label xml:lang="en">Value Correspondence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    A Value Correspondence specifies that two values occur simultaniously. 
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Correspondence" />
+	<owl:disjointWith rdf:resource="#QuantitySpaceCorrespondence" />
+	<owl:disjointWith rdf:resource="#FullCorrespondence" />
+    </owl:Class>
+
+    <!--
+    <owl:Class rdf:ID="DirectedValueCorrespondence">
+    	<rdfs:label xml:lang="en">Directed Value Correspondence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    A Directed Value Correspondence specifies that if a origin magnitude or derivative has a
+	    specific value, the target value may be inferred.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#ValueCorrespondence" />
+	<owl:disjointWith rdf:resource="#UndirectedValueCorrespondence" />
+    </owl:Class>
+    <owl:Class rdf:ID="UndirectedValueCorrespondence">
+    	<rdfs:label xml:lang="en">Undirected Value Correspondence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    An Undirected Value Correspondence specifies that if the either the origin magnitude or
+	    derivative has a specific value, the target value may be inferred, and vice versa.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#ValueCorrespondence" />
+	<owl:disjointWith rdf:resource="#DirectedValueCorrespondence" />
+    </owl:Class>
+    -->
+
+    <owl:Class rdf:ID="QuantitySpaceCorrespondence">
+	<rdfs:label xml:lang="en">Quantity Space Correspondence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Quantity Space Correspondences are used to denote that the values of two quantity spaces
+	    correspond to each other.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Correspondence" />
+	<owl:disjointWith rdf:resource="#ValueCorrespondence" />
+	<owl:disjointWith rdf:resource="#FullCorrespondence" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="FullCorrespondence">
+	<rdfs:label xml:lang="en">Full Correspondence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Full Correspondences indicate that both the quantity spaces of the magnitudes as the quantity spaces of the
+        derivatives correspond to eachother.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Correspondence" />
+	<owl:disjointWith rdf:resource="#ValueCorrespondence" />
+	<owl:disjointWith rdf:resource="#QuantitySpaceCorrespondence" />
+    </owl:Class>
+
+
+    <!--
+    <owl:Class rdf:ID="DirectedQuantitySpaceCorrespondence">
+	<rdfs:label xml:lang="en">Directed Quantity Space Correspondence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Directed Quantity Space Correspondences are used to denote that the values of the origin
+	    quantity space have a directed correspondence to the values in the target quantity
+	    space.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#QuantitySpaceCorrespondence" />
+	<owl:disjointWith rdf:resource="#UndirectedQuantitySpaceCorrespondence" />
+    </owl:Class>
+    <owl:Class rdf:ID="UndirectedQuantitySpaceCorrespondence">
+	<rdfs:label xml:lang="en">Undirected Quantity Space Correspondence</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    Undirected Quantity Space Correspondences are used to denote that the values of the
+	    origin quantity spaces have an undirected correspondence to the values in the target quantity space.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#QuantitySpaceCorrespondence" />
+	<owl:disjointWith rdf:resource="#DirectedQuantitySpaceCorrespondence" />
+    </owl:Class>
+    -->
+
+    <owl:Class rdf:ID="Inequality">
+	<rdfs:label xml:lang="en">Inequality</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	Inequalities are used to indicate the difference or equality between values.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#MathematicalDependency" />
+	<owl:disjointWith rdf:resource="#Operator" />
+	<owl:disjointWith rdf:resource="#hasValue" />
+    </owl:Class>
+    
+    <owl:Class rdf:ID="SmallerThan">
+	<rdfs:label xml:lang="en">Smaller Than</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	A smaller than relation indicates that the origin value is smaller than the target value.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Inequality" />
+	<owl:disjointWith rdf:resource="#SmallerOrEqualTo" />
+	<owl:disjointWith rdf:resource="#EqualTo" />
+	<owl:disjointWith rdf:resource="#GreaterOrEqualTo" />
+	<owl:disjointWith rdf:resource="#GreaterThan" />
+    </owl:Class>
+    
+    <owl:Class rdf:ID="SmallerOrEqualTo">
+	<rdfs:label xml:lang="en">Smaller Or Equal To</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	A smaller or equal to relation indicates that the origin value is smaller or equal to the target value.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Inequality" />
+	<owl:disjointWith rdf:resource="#SmallerThan" />
+	<owl:disjointWith rdf:resource="#EqualTo" />
+	<owl:disjointWith rdf:resource="#GreaterOrEqualTo" />
+	<owl:disjointWith rdf:resource="#GreaterThan" />
+    </owl:Class>
+    <owl:Class rdf:ID="EqualTo">
+	<rdfs:label xml:lang="en">Equal To</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	An equality relation indicates that the origin value is equal to the target value.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Inequality" />
+	<owl:disjointWith rdf:resource="#SmallerThan" />
+	<owl:disjointWith rdf:resource="#SmallerOrEqualTo" />
+	<owl:disjointWith rdf:resource="#GreaterOrEqualTo" />
+	<owl:disjointWith rdf:resource="#GreaterThan" />
+    </owl:Class>
+    <owl:Class rdf:ID="GreaterOrEqualTo">
+	<rdfs:label xml:lang="en">Greater Or Equal To</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	A greater or equal to relation indicates that the origin value is greater or equal to the target value.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Inequality" />
+	<owl:disjointWith rdf:resource="#SmallerThan" />
+	<owl:disjointWith rdf:resource="#SmallerOrEqualTo" />
+	<owl:disjointWith rdf:resource="#EqualTo" />
+	<owl:disjointWith rdf:resource="#GreaterThan" />
+    </owl:Class>
+    <owl:Class rdf:ID="GreaterThan">
+	<rdfs:label xml:lang="en">Greater Than</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	A greater than relation indicates that the origin value is greater than the target value.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Inequality" />
+	<owl:disjointWith rdf:resource="#SmallerThan" />
+	<owl:disjointWith rdf:resource="#SmallerOrEqualTo" />
+	<owl:disjointWith rdf:resource="#EqualTo" />
+	<owl:disjointWith rdf:resource="#GreaterOrEqualTo" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="hasValue">
+    	<rdfs:label xml:lang="en">hasValue</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	    hasValue relations indicate a magnitude or derivative have a certain value.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#MathematicalDependency" />
+	<owl:disjointWith rdf:resource="#Operator" />
+	<owl:disjointWith rdf:resource="#Inequality" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Operator">
+	<rdfs:label xml:lang="en">Operator</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	Operator is the set of addition and substraction relations. The relation itself can have multiple inequality relations.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#MathematicalDependency" />
+	<owl:disjointWith rdf:resource="#Inequality" />
+	<owl:disjointWith rdf:resource="#hasValue" />
+    </owl:Class>
+    
+    <owl:Class rdf:ID="Plus">
+	<rdfs:label xml:lang="en">Plus</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	Plus is addition of the origin and target value and can have multiple inequalities.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Operator" />
+	<owl:disjointWith rdf:resource="#Minus" />
+    </owl:Class>
+    
+    <owl:Class rdf:ID="Minus">
+    	<rdfs:label xml:lang="en">Minus</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	Minus is substraction of the origin and target value and can have multiple inequalities.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Operator" />
+	<owl:disjointWith rdf:resource="#Plus" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="ModelFragment">
+    	<rdfs:label xml:lang="en">Model Fragment</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	A model fragment describe parts of the structure and behaviour of a system and is composed of multiple basic building blocks.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Aggregate" />
+	<owl:disjointWith rdf:resource="#Scenario" />
+    </owl:Class>
+
+    <owl:DatatypeProperty rdf:ID="isActive" />
+    
+    <owl:Class rdf:ID="StaticFragment">
+     	<rdfs:label xml:lang="en">Static Fragment</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	A static fragment is a model fragment without influences or agents.
+	</rdfs:comment>
+    <owl:disjointWith rdf:resource="#ProcessFragment" />
+	<owl:disjointWith rdf:resource="#AgentFragment" />
+    <rdfs:subClassOf rdf:resource="#ModelFragment" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="ProcessFragment">
+     	<rdfs:label xml:lang="en">Process Fragment</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	A process fragment is a model fragment which models a process, but does not contain agents.
+	</rdfs:comment>
+	<owl:disjointWith rdf:resource="#StaticFragment" />
+	<owl:disjointWith rdf:resource="#AgentFragment" />
+    <rdfs:subClassOf rdf:resource="#ModelFragment" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="AgentFragment">
+	<rdfs:label xml:lang="en">Agent Fragment</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	An agent fragment is a model fragment which contains an agent.
+	</rdfs:comment>
+	<owl:disjointWith rdf:resource="#ProcessFragment" />
+	<owl:disjointWith rdf:resource="#StaticFragment" />
+    <rdfs:subClassOf rdf:resource="#ModelFragment" />
+    </owl:Class>
+
+    <owl:Class rdf:ID="Scenario">
+	<rdfs:label xml:lang="en">Scenario</rdfs:label>
+	<rdfs:comment xml:lang="en">
+	A scenario describes a situation of the system which becomes the startnode of the stategraph.
+	</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="#Aggregate" />
+	<owl:disjointWith rdf:resource="#ModelFragment" />
+    </owl:Class>
+
+    <!-- Model Ingredient Restrictions -->
+    <owl:Class rdf:about="#QualitativeModelIngredient">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		    <owl:onProperty rdf:resource="#has_xposition_on_screen" />
+		    <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:maxCardinality>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		    <owl:onProperty rdf:resource="#has_yposition_on_screen" />
+		    <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:maxCardinality>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    <rdfs:subClassOf>
+        <owl:Restriction>
+            <owl:onProperty rdf:resource="#is_hidden_on_screen" />
+            <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+                >1</owl:maxCardinality>
+        </owl:Restriction>
+    </rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:DatatypeProperty rdf:ID="has_xposition_on_screen" />
+    <owl:DatatypeProperty rdf:ID="has_yposition_on_screen" />
+    <owl:DatatypeProperty rdf:ID="is_hidden_on_screen" />
+
+
+    <!-- Entities and Agents -->
+    <owl:Class rdf:about="#Entity">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasAttribute" />
+		<owl:allValuesFrom rdf:resource="#Attribute" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasQuantity" />
+		<owl:allValuesFrom rdf:resource="#Quantity" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+    
+    <owl:Class rdf:about="#Agent">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasAttribute" />
+		<owl:allValuesFrom rdf:resource="#Attribute" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasQuantity" />
+		<owl:allValuesFrom rdf:resource="#Quantity" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:ObjectProperty rdf:ID="hasConfiguration" />
+    <owl:ObjectProperty rdf:ID="hasAttribute" />
+    <owl:ObjectProperty rdf:ID="hasQuantity" />
+
+    <!-- Een configuratie als een gereificeerd object: een entiteit of agent
+    heeft mogelijk een configuratie, welke vervolgens een verplichte moet
+    hebben met een agent of een entiteit -->
+    <owl:Class rdf:about="#Configuration">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasConfigurationTarget" />
+		<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:cardinality>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    <!--
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasConfigurationOwner" />
+		<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:cardinality>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    -->
+    </owl:Class>
+
+    <owl:ObjectProperty rdf:ID="hasConfigurationTarget" />
+    
+    <owl:ObjectProperty rdf:ID="isConfigurationTargetOf">
+	<owl:inverseOf rdf:resource="#hasConfigurationTarget" />
+    </owl:ObjectProperty>
+	
+    <owl:ObjectProperty rdf:ID="hasConfigurationOwner">
+	<owl:inverseOf rdf:resource="#hasConfiguration" />
+    </owl:ObjectProperty>
+
+    <owl:Class rdf:about="#Agent">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasConfiguration" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#Configuration" />
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasConfigurationTarget" />
+				<owl:someValuesFrom>
+				    <owl:Class>
+					<owl:unionOf rdf:parseType="Collection">
+					    <owl:Class rdf:about="#Entity" />
+					    <owl:Class rdf:about="#Agent" />
+					</owl:unionOf>
+				    </owl:Class>
+				</owl:someValuesFrom>
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Entity">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasConfiguration" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#Configuration" />
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasConfigurationTarget" />
+				<owl:someValuesFrom>
+				    <owl:Class>
+					<owl:unionOf rdf:parseType="Collection">
+					    <owl:Class rdf:about="#Entity" />
+					    <owl:Class rdf:about="#Agent" />
+					</owl:unionOf>
+				    </owl:Class>
+				</owl:someValuesFrom>
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+	 
+    <!-- Attributes version 2.0 -->
+    <owl:Class rdf:about="#Attribute">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasAttributeValue" />
+		<owl:allValuesFrom rdf:resource="#AttributeValue" />	
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasAttributeValue" />
+		<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:cardinality>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:ObjectProperty rdf:ID="hasAttributeValue" />
+
+    <!--      Quantities, Quantity Spaces, QuantityDefinitions -->
+    <owl:Class rdf:about="#Quantity">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasMagnitude" />
+		<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:cardinality> 
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasMagnitude" />
+		<owl:allValuesFrom rdf:resource="#Magnitude" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasDerivative" />
+		<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:cardinality>
+	    </owl:Restriction>
+	</rdfs:subClassOf> 
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasDerivative" />
+		<owl:allValuesFrom rdf:resource="#Derivative" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Magnitude">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasQuantitySpace" />
+		<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:cardinality> 
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasQuantitySpace" />
+		<owl:allValuesFrom rdf:resource="#QuantitySpace" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Derivative">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasQuantitySpace" />
+		<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:cardinality> 
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasQuantitySpace" />
+		<owl:allValuesFrom rdf:resource="#QuantitySpace" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:ObjectProperty rdf:ID="hasMagnitude">
+	<rdfs:range  rdf:resource="#Magnitude" />
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:ID="magnitudeBelongsToQuantity">
+	<owl:inverseOf rdf:resource="#hasMagnitude" />
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:ID="hasDerivative">
+	<rdfs:range  rdf:resource="#Derivative" />
+    </owl:ObjectProperty>
+ 
+    <owl:ObjectProperty rdf:ID="derivativeBelongsToQuantity">
+	<owl:inverseOf rdf:resource="#hasDerivative" />
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:ID="hasQuantitySpace">
+	<rdfs:range  rdf:resource="#QuantitySpace" />
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:ID="isQuantitySpaceOf">
+	<owl:inverseOf rdf:resource="#hasQuantitySpace" />
+	<rdfs:domain rdf:resource="#QuantitySpace" />
+	</owl:ObjectProperty>
+
+	<!-- Quantities and Quantity Assumptions -->
+	<owl:Class rdf:ID="QuantityAssumption">
+		<rdfs:subClassOf rdf:resource="#BehaviouralBuildingBlock" />
+		<owl:disjointWith rdf:resource="#Derivative" />
+		<owl:disjointWith rdf:resource="#Magnitude" />
+		<owl:disjointWith rdf:resource="#QualitativeValue" />
+		<owl:disjointWith rdf:resource="#Quantity" />
+		<owl:disjointWith rdf:resource="#QuantitySpace" />
+		<owl:oneOf rdf:parseType="Collection">
+			<QuantityAssumption rdf:about="#GenerateAllValues" />
+			<QuantityAssumption rdf:about="#Constant" />
+			<QuantityAssumption rdf:about="#ExogenousNone" />
+			<QuantityAssumption rdf:about="#ExogenousDecrease" />
+			<QuantityAssumption rdf:about="#ExogenousSteady" />
+			<QuantityAssumption rdf:about="#ExogenousIncrease" />
+			<QuantityAssumption rdf:about="#ExogenousSinusoidal" />
+			<QuantityAssumption rdf:about="#ExogenousPositiveParabola" />
+			<QuantityAssumption rdf:about="#ExogenousNegativeParabola" />
+			<QuantityAssumption rdf:about="#ExogenousRandom" />
+		</owl:oneOf>
+	</owl:Class>
+
+	<owl:AllDifferent>
+		<owl:distinctMembers rdf:parseType="Collection">
+			<QuantityAssumption rdf:about="#GenerateAllValues" />
+			<QuantityAssumption rdf:about="#Constant" />
+			<QuantityAssumption rdf:about="#ExogenousNone" />
+			<QuantityAssumption rdf:about="#ExogenousDecrease" />
+			<QuantityAssumption rdf:about="#ExogenousSteady" />
+			<QuantityAssumption rdf:about="#ExogenousIncrease" />
+			<QuantityAssumption rdf:about="#ExogenousSinusoidal" />
+			<QuantityAssumption rdf:about="#ExogenousPositiveParabola" />
+			<QuantityAssumption rdf:about="#ExogenousNegativeParabola" />
+			<QuantityAssumption rdf:about="#ExogenousRandom" />
+		</owl:distinctMembers>
+	</owl:AllDifferent>
+
+	<QuantityAssumption rdf:ID="GenerateAllValues">
+		<rdfs:label>Generate all values</rdfs:label>
+		<rdfs:comment>Generate all the possible values for this quantity.</rdfs:comment>
+	</QuantityAssumption>
+
+	<QuantityAssumption rdf:ID="Constant">
+		<rdfs:label>Contant</rdfs:label>
+		<rdfs:comment>This quantity remains constant.</rdfs:comment>
+	</QuantityAssumption>
+	<QuantityAssumption rdf:ID="ExogenousNone">
+		<rdfs:label>Exogenous None</rdfs:label>
+		<rdfs:comment>No exogenous influence</rdfs:comment>
+	</QuantityAssumption>
+	<QuantityAssumption rdf:ID="ExogenousDecrease">
+		<rdfs:label>Exogenous Decrease</rdfs:label>
+		<rdfs:comment>An exogenous influence causes the quantity to decrease</rdfs:comment>
+	</QuantityAssumption>
+	<QuantityAssumption rdf:ID="ExogenousSteady">
+		<rdfs:label>Exogenous Steady</rdfs:label>
+		<rdfs:comment>An exogenous influence causes the quantity to remain stable</rdfs:comment>
+	</QuantityAssumption>
+	<QuantityAssumption rdf:ID="ExogenousIncrease">
+		<rdfs:label>Exogenous Increase</rdfs:label>
+		<rdfs:comment>An exogenous influence causes the quantity to increase</rdfs:comment>
+	</QuantityAssumption>
+	<QuantityAssumption rdf:ID="ExogenousPositiveParabola">
+		<rdfs:label>Exogenous Parabola (Positive)</rdfs:label>
+		<rdfs:comment>An exogenous influence causes the quantity to increase and then decrease</rdfs:comment>
+	</QuantityAssumption>
+	<QuantityAssumption rdf:ID="ExogenousNegativeParabola">
+		<rdfs:label>Exogenous Parabola (Negative)</rdfs:label>
+		<rdfs:comment>An exogenous influence causes the quantity to decrease and then increase</rdfs:comment>
+	</QuantityAssumption>
+	<QuantityAssumption rdf:ID="ExogenousSinusoidal">
+		<rdfs:label>Exogenous Sinusoidal</rdfs:label>
+		<rdfs:comment>An exogenous influence causes the quantity to makes sinusoidal</rdfs:comment>
+	</QuantityAssumption>
+	<QuantityAssumption rdf:ID="ExogenousRandom">
+		<rdfs:label>Exogenous Random</rdfs:label>
+		<rdfs:comment>An exogenous influences causes the quantity to change randomly</rdfs:comment>
+	</QuantityAssumption>
+
+	<owl:Class rdf:about="#Quantity">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasQuantityAssumption" />
+		<owl:allValuesFrom rdf:resource="#QuantityAssumption" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+	<owl:ObjectProperty rdf:ID="hasQuantityAssumption" />
+
+
+    <!-- Quantity Spaces and their Values -->
+    <owl:Class rdf:about="#QuantitySpace">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#containsQualitativeValue" />
+		<owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:minCardinality>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#containsQualitativeValue" />
+		<owl:allValuesFrom rdf:resource="#QualitativeValue" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:ObjectProperty rdf:ID="containsQualitativeValue">
+	<rdfs:range  rdf:resource="#QualitativeValue" />
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:ID="belongsToQuantitySpace">
+	<owl:inverseOf rdf:resource="#containsQualitativeValue" />
+	</owl:ObjectProperty>
+
+
+    
+
+    <!-- Proportionalities and Influences Version 2.0 -->
+    <owl:Class rdf:about="#Quantity">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasCausalDependency" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class>
+				<owl:unionOf rdf:parseType="Collection">
+				    <owl:Class rdf:about="#Influence" />
+				    <owl:Class rdf:about="#Proportionality" />
+				</owl:unionOf>
+			    </owl:Class>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasCausalDependencyTarget" />
+				<owl:allValuesFrom rdf:resource="#Quantity" />
+			    </owl:Restriction>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasCausalDependencyTarget" />
+				<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+                    >1</owl:cardinality>
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:ObjectProperty rdf:ID="hasCausalDependency" />
+    <owl:ObjectProperty rdf:ID="hasCausalDependencyTarget" />
+   
+    <!-- Correspondences version 2.0 -->
+    <owl:ObjectProperty rdf:ID="hasCorrespondence" />
+    <owl:ObjectProperty rdf:ID="hasCorrespondenceTarget" />
+
+    <owl:Class rdf:about="#QuantitySpace">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasCorrespondence" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#QuantitySpaceCorrespondence" />
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasCorrespondenceTarget" />
+				<owl:allValuesFrom rdf:resource="#QuantitySpace" />
+			    </owl:Restriction>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasCorrespondenceTarget" />
+				<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+                    >1</owl:cardinality>
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+		<!-- The domain and range should have the same cardinality, but this
+		is not expressable in OWL -->
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:Class rdf:about="#QualitativeValue">
+    	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasCorrespondence" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#ValueCorrespondence" />
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasCorrespondenceTarget" />
+				<owl:allValuesFrom rdf:resource="#QualitativeValue" />
+			    </owl:Restriction>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasCorrespondenceTarget" />
+				<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+                    >1</owl:cardinality>
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+		<!-- The qualitative values should not be in the same
+		quantity space, but this is not expressable in OWL -->
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+    
+
+    <!-- Inequalities version 2.0 -->
+    <owl:ObjectProperty rdf:ID="hasInequalityTarget">
+	<rdfs:domain rdf:resource="#Inequality" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:ID="hasInequality">
+	<rdfs:range rdf:resource="#Inequality" />
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:ID="hasValueTarget" />
+
+    <!-- hasValue relation -->
+    <owl:Class rdf:about="#hasValue">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasValueTarget" />
+		<owl:allValuesFrom rdf:resource="#QualitativeValue" />
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <!-- Magnitudes can have inequalities with other magnitudes or
+    points (qualitative values) within their own quantity space as
+    targets -->
+    <owl:Class rdf:about="#Magnitude">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasInequality" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#Inequality" />
+			    <owl:Restriction>
+					<owl:onProperty rdf:resource="#hasInequalityTarget" />
+					<owl:allValuesFrom rdf:resource="#MagnitudeItem" />
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <!-- Derivatives can have inequalities with other derivatives or
+    points (qualitative values) within their own quantity space as
+    targets -->
+    <owl:Class rdf:about="#Derivative">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasInequality" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#Inequality" />
+			    <owl:Restriction>
+					<owl:onProperty rdf:resource="#hasInequalityTarget" />
+					<owl:allValuesFrom rdf:resource="#DerivativeItem" />
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <!-- Points (non-interval qualitative values) can have inequality relations with other points
+    which are not in the same quantity space, and belong to the same type of quantity component
+    (either -->
+	<owl:Class rdf:ID="PointBelongingToMagnitude">
+	<rdfs:subClassOf rdf:resource="#Point" />
+	<owl:equivalentClass>
+	    <owl:Class>
+		<owl:intersectionOf rdf:parseType="Collection">
+		    <owl:Class rdf:about="#Point" />
+		    <owl:Restriction>
+			<owl:onProperty rdf:resource="#belongsToQuantitySpace" />
+			<owl:someValuesFrom>
+			    <owl:Class>
+				<owl:intersectionOf rdf:parseType="Collection">
+				    <owl:Class rdf:about="#QuantitySpace" />
+				    <owl:Restriction>
+					<owl:onProperty rdf:resource="#isQuantitySpaceOf" />
+					<owl:someValuesFrom rdf:resource="#Magnitude" />
+				    </owl:Restriction>
+				</owl:intersectionOf>
+			    </owl:Class>
+			</owl:someValuesFrom>
+		    </owl:Restriction>
+		</owl:intersectionOf>
+	    </owl:Class>
+	</owl:equivalentClass>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+			<owl:onProperty rdf:resource="#hasInequality" />
+			<owl:allValuesFrom>
+				<owl:Class>
+					<owl:intersectionOf rdf:parseType="Collection">
+						<owl:Class rdf:about="#Inequality" />
+						<owl:Restriction>
+							<owl:onProperty rdf:resource="#hasInequalityTarget" />
+							<owl:someValuesFrom rdf:resource="#MagnitudeItem" />
+						</owl:Restriction>
+					</owl:intersectionOf>
+				</owl:Class>
+			</owl:allValuesFrom>
+	</owl:Restriction>
+	</rdfs:subClassOf>
+	<owl:disjointWith rdf:resource="#PointBelongingToDerivative" />
+    </owl:Class>
+    
+	<owl:Class rdf:ID="PointBelongingToDerivative">
+	<rdfs:subClassOf rdf:resource="#Point" />
+	<owl:equivalentClass>
+	    <owl:Class>
+		<owl:intersectionOf rdf:parseType="Collection">
+		    <owl:Class rdf:about="#Point" />
+		    <owl:Restriction>
+			<owl:onProperty rdf:resource="#belongsToQuantitySpace" />
+			<owl:someValuesFrom>
+			    <owl:Class>
+				<owl:intersectionOf rdf:parseType="Collection">
+				    <owl:Class rdf:about="#QuantitySpace" />
+				    <owl:Restriction>
+					<owl:onProperty rdf:resource="#isQuantitySpaceOf" />
+					<owl:someValuesFrom rdf:resource="#Derivative" />
+				    </owl:Restriction>
+				</owl:intersectionOf>
+			    </owl:Class>
+			</owl:someValuesFrom>
+		    </owl:Restriction>
+		</owl:intersectionOf>
+	    </owl:Class>
+	</owl:equivalentClass>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+			<owl:onProperty rdf:resource="#hasInequality" />
+			<owl:allValuesFrom>
+				<owl:Class>
+					<owl:intersectionOf rdf:parseType="Collection">
+						<owl:Class rdf:about="#Inequality" />
+						<owl:Restriction>
+							<owl:onProperty rdf:resource="#hasInequalityTarget" />
+							<owl:someValuesFrom rdf:resource="#DerivativeItem" />
+						</owl:Restriction>
+					</owl:intersectionOf>
+				</owl:Class>
+			</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<owl:disjointWith rdf:resource="#PointBelongingToMagnitude" />
+    </owl:Class>
+
+    <!-- Inequalities to model the total order in the Quantity Spaces -->
+    <owl:Class rdf:about="#Interval">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasInequality" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#Inequality" />
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasInequalityTarget" />
+				<owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger"
+                    >1</owl:minCardinality>
+			    </owl:Restriction>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasInequalityTarget" />
+				<owl:allValuesFrom rdf:resource="#Point" />
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <!-- Plus/Min Relations -->
+    <!-- 
+    Ordinal:
+	1. Being of a specified position in a numbered series: an ordinal rank of seventh.
+	2. Of or relating to a taxonomic order.
+
+    Arithmetical: 
+	1. The mathematics of integers, rational numbers, real numbers, or complex numbers under addition, subtraction, multiplication, and division.
+	2. Archaic. A book on this kind of mathematics.
+
+    Mathematics:
+	1. The study of the measurement, properties, and relationships of quantities and sets, using numbers and symbols.
+
+    Algebraic: 
+	1. Of, relating to, or designating algebra.
+	2. Designating an expression, equation, or function in which only numbers, letters, and arithmetic operations are contained or used.
+	3. Indicating or restricted to a finite number of operations involving algebra.
+    -->
+    <owl:ObjectProperty rdf:ID="hasLeftHandSide">
+	    <owl:inverseOf rdf:resource="#isLeftHandSideOf" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:ID="isLeftHandSideOf">
+	    <owl:inverseOf rdf:resource="#hasLeftHandSide" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:ID="hasRightHandSide">
+        <owl:inverseOf rdf:resource="#isRightHandSideOf" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:ID="isRightHandSideOf">
+        <owl:inverseOf rdf:resource="#hasRightHandSide" />
+	</owl:ObjectProperty>
+
+	<owl:Class rdf:about="#Operator">
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasLeftHandSide" />
+				<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+					>1</owl:cardinality>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasRightHandSide" />
+				<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger"
+					>1</owl:cardinality>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:Class rdf:ID="OperatorOnMagnitudeItem">
+		<rdfs:subClassOf rdf:resource="#Operator" />
+		<owl:equivalentClass>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasLeftHandSide" />
+				<owl:someValuesFrom rdf:resource="#MagnitudeItem" />
+			</owl:Restriction>
+		</owl:equivalentClass>
+		<owl:disjointWith rdf:resource="#OperatorOnDerivativeItem" />
+	</owl:Class>
+
+	<owl:Class rdf:ID="OperatorOnDerivativeItem">
+		<rdfs:subClassOf rdf:resource="#Operator" />
+		<owl:equivalentClass>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasLeftHandSide" />
+				<owl:someValuesFrom rdf:resource="#DerivativeItem" />
+			</owl:Restriction>
+		</owl:equivalentClass>
+		<owl:disjointWith rdf:resource="#OperatorOnMagnitudeItem" />
+	</owl:Class>
+
+	<!-- Definitions for Magnitude and Derivative Items for operator restrictions -->
+	<owl:Class rdf:ID="MagnitudeItem">
+		<rdfs:subClassOf rdf:resource="#BehaviouralBuildingBlock" />
+		<owl:unionOf rdf:parseType="Collection">
+			<owl:Class rdf:about="#Magnitude" />
+			<owl:Class rdf:about="#PointBelongingToMagnitude" />
+			<owl:Class rdf:about="#OperatorOnMagnitudeItem" />
+		</owl:unionOf>
+		<owl:disjointWith rdf:resource="#DerivativeItem" />
+	</owl:Class>
+
+	<owl:Class rdf:ID="DerivativeItem">
+		<rdfs:subClassOf rdf:resource="#BehaviouralBuildingBlock" />
+		<owl:unionOf rdf:parseType="Collection">
+			<owl:Class rdf:about="#Derivative" />
+			<owl:Class rdf:about="#PointBelongingToDerivative" />
+			<owl:Class rdf:about="#OperatorOnDerivativeItem" />
+		</owl:unionOf>
+		<owl:disjointWith rdf:resource="#MagnitudeItem" />
+	</owl:Class>
+
+    <owl:Class rdf:about="#Derivative">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#isLeftHandSideOf" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#Operator" />
+			    <owl:Restriction>
+					<owl:onProperty rdf:resource="#hasRightHandSide" />
+					<owl:allValuesFrom rdf:resource="#DerivativeItem" />
+			    </owl:Restriction>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasInequality" />
+				<owl:allValuesFrom>
+				    <owl:Class>
+					<owl:intersectionOf rdf:parseType="Collection">
+					    <owl:Class rdf:about="#Inequality" />
+					    <owl:Restriction>
+						<owl:onProperty rdf:resource="#hasInequalityTarget" />
+						<owl:allValuesFrom rdf:resource="#DerivativeItem" /> 
+					    </owl:Restriction>
+					</owl:intersectionOf>
+				    </owl:Class>
+				</owl:allValuesFrom>
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:Class rdf:about="#Magnitude">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#isLeftHandSideOf" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#Operator" />
+			    <owl:Restriction>
+					<owl:onProperty rdf:resource="#hasRightHandSide" />
+					<owl:allValuesFrom rdf:resource="#MagnitudeItem" />
+			    </owl:Restriction>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasInequality" />
+				<owl:allValuesFrom>
+				    <owl:Class>
+					<owl:intersectionOf rdf:parseType="Collection">
+					    <owl:Class rdf:about="#Inequality" />
+					    <owl:Restriction>
+							<owl:onProperty rdf:resource="#hasInequalityTarget" />
+							<owl:allValuesFrom rdf:resource="#MagnitudeItem" />
+					    </owl:Restriction>
+					</owl:intersectionOf>
+				    </owl:Class>
+				</owl:allValuesFrom>
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:Class rdf:about="#PointBelongingToMagnitude">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#isLeftHandSideOf" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:intersectionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#Operator" />
+			    <owl:Restriction>
+					<owl:onProperty rdf:resource="#hasRightHandSide" />
+					<owl:allValuesFrom rdf:resource="#MagnitudeItem" />
+			    </owl:Restriction>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasInequality" />
+				<owl:allValuesFrom>
+				    <owl:Class>
+					<owl:intersectionOf rdf:parseType="Collection">
+					    <owl:Class rdf:about="#Inequality" />
+					    <owl:Restriction>
+							<owl:onProperty rdf:resource="#hasInequalityTarget" />
+							<owl:allValuesFrom rdf:resource="#MagnitudeItem" />
+					    </owl:Restriction>
+					</owl:intersectionOf>
+				    </owl:Class>
+				</owl:allValuesFrom>
+			    </owl:Restriction>
+			</owl:intersectionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	</owl:Class>
+    
+
+    <!-- Model Fragments are a kind of situations but
+	are also QR Ingredients -->
+
+    <owl:Class rdf:about="#ModelFragment">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasCondition" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:unionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#StructuralBuildingBlock" />
+			    <owl:Class rdf:about="#BehaviouralBuildingBlock" />
+			    <owl:Class rdf:about="#Assumption" />
+			    <owl:Class rdf:about="#Inequality" />
+				<owl:Class rdf:about="#Operator" />
+				<owl:Class rdf:about="#Identity" />
+			    <owl:Class rdf:about="#ModelFragment" />
+			</owl:unionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasConsequence" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:unionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#Entity" />
+			    <owl:Class rdf:about="#Configuration" />
+			    <owl:Class rdf:about="#Attribute" />
+			    <owl:Class rdf:about="#AttributeValue" />
+			    <owl:Class rdf:about="#BehaviouralBuildingBlock" />
+				<owl:Class rdf:about="#Dependency" />
+				<owl:Class rdf:about="#Identity" />
+			</owl:unionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+    
+    <owl:ObjectProperty rdf:ID="hasCondition" />
+    <owl:ObjectProperty rdf:ID="hasConsequence" />
+
+    <!-- A static fragment is a sort of Model Fragment -->
+    <owl:Class rdf:about="#StaticFragment">
+	<owl:equivalentClass>
+	    <owl:Class>
+		<owl:intersectionOf rdf:parseType="Collection">
+		    <owl:Class rdf:about="#ModelFragment" />
+		    <owl:Class>
+			<owl:complementOf>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasConsequence" />
+				<owl:someValuesFrom rdf:resource="#Influence" />
+			    </owl:Restriction>
+			</owl:complementOf>
+		    </owl:Class>
+		    <owl:Class>
+			<owl:complementOf>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasCondition" />
+				<owl:someValuesFrom rdf:resource="#Agent" />
+			    </owl:Restriction> 
+			</owl:complementOf>
+		    </owl:Class>
+		    <owl:Class>
+			<owl:complementOf>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasConsequence" />
+				<owl:someValuesFrom rdf:resource="#Entity" />
+			    </owl:Restriction> 
+			</owl:complementOf>
+		    </owl:Class>
+		    <owl:Class>
+			<owl:complementOf>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasConsequence" />
+				<owl:someValuesFrom rdf:resource="#Configuration" />
+			    </owl:Restriction> 
+			</owl:complementOf>
+		    </owl:Class>
+		    <owl:Class>
+			<owl:complementOf>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasConsequence" />
+				<owl:someValuesFrom rdf:resource="#Agent" />
+			    </owl:Restriction>
+			</owl:complementOf>
+		    </owl:Class>
+		</owl:intersectionOf>
+	    </owl:Class>
+	</owl:equivalentClass>
+    </owl:Class>
+
+    <!-- A process fragment is a Model Fragment which contains a
+    a Quantity which has at least 1 Influence on relations. -->
+    <owl:Class rdf:about="#ProcessFragment">
+	<owl:equivalentClass>
+	    <owl:Class>
+		<owl:intersectionOf rdf:parseType="Collection">
+		    <owl:Class rdf:about="#ModelFragment" />
+		    <owl:Restriction>
+			<owl:onProperty rdf:resource="#hasConsequence" />
+			<owl:someValuesFrom rdf:resource="#Influence" />
+		    </owl:Restriction>
+		    <owl:Class>
+			<owl:complementOf>
+			    <owl:Restriction>
+				<owl:onProperty rdf:resource="#hasCondition" />
+				<owl:someValuesFrom rdf:resource="#Agent" />
+			    </owl:Restriction>
+			</owl:complementOf>
+		    </owl:Class>
+		</owl:intersectionOf>
+	    </owl:Class>
+	</owl:equivalentClass>
+    </owl:Class>
+
+    <!-- An agent fragment is a Model Fragment which contains
+         at least one agent -->
+    <owl:Class rdf:about="#AgentFragment">
+	<owl:equivalentClass>
+	    <owl:Class>
+		<owl:intersectionOf rdf:parseType="Collection">
+		    <owl:Class rdf:about="#ModelFragment" />
+		    <owl:Restriction>
+			<owl:onProperty rdf:resource="#hasCondition" />
+			<owl:someValuesFrom rdf:resource="#Agent" />
+		    </owl:Restriction>
+		</owl:intersectionOf>
+	    </owl:Class>
+	</owl:equivalentClass>
+    </owl:Class>
+
+    <!-- A scenario is a sort of situation -->
+    <owl:Class rdf:about="#Scenario">
+	<rdfs:subClassOf>
+	    <owl:Restriction>
+		<owl:onProperty rdf:resource="#hasFact" />
+		<owl:allValuesFrom>
+		    <owl:Class>
+			<owl:unionOf rdf:parseType="Collection">
+			    <owl:Class rdf:about="#StructuralBuildingBlock" />
+			    <owl:Class rdf:about="#BehaviouralBuildingBlock" />
+			    <owl:Class rdf:about="#Assumption" />
+			    <owl:Class rdf:about="#Inequality" />
+			    <owl:Class rdf:about="#Operator" />
+			    <owl:Class rdf:about="#Magnitude" />
+			    <owl:Class rdf:about="#Derivative" />
+			    <owl:Class rdf:about="#QualitativeValue" />
+			</owl:unionOf>
+		    </owl:Class>
+		</owl:allValuesFrom>
+	    </owl:Restriction>
+	</rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:ObjectProperty rdf:ID="hasFact" />
+
+<!-- Aggregates have a window editSize and a displayOrigin -->
+<owl:Class rdf:about="#Aggregate">
+    <rdfs:subClassOf>
+        <owl:Restriction>
+            <owl:onProperty rdf:resource="#hasEditSizeHeight" />
+		    <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:maxCardinality>
+        </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+        <owl:Restriction>
+            <owl:onProperty rdf:resource="#hasEditSizeWidth" />
+		    <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:maxCardinality>
+        </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+        <owl:Restriction>
+            <owl:onProperty rdf:resource="#hasDisplayOriginX" />
+		    <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:maxCardinality>
+        </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+        <owl:Restriction>
+            <owl:onProperty rdf:resource="#hasDisplayOriginY" />
+		    <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:maxCardinality>
+        </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+        <owl:Restriction>
+            <owl:onProperty rdf:resource="#isActive" />
+		    <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger"
+            >1</owl:maxCardinality>
+        </owl:Restriction>
+    </rdfs:subClassOf>
+</owl:Class>
+
+<owl:DatatypeProperty rdf:ID="hasEditSizeHeight" />
+<owl:DatatypeProperty rdf:ID="hasEditSizeWidth" />
+<owl:DatatypeProperty rdf:ID="hasDisplayOriginX" />
+<owl:DatatypeProperty rdf:ID="hasDisplayOriginY" />
+
+
+<!-- Simulation Preferences Properties -->
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefcw_assumption">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Assume unknown influences to be zero</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPreffree_maxmin_derivative">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Apply quantity space constraints on extreme values (inverse this value)</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPreffree_zero_derivative">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Apply quantity space constraints on zero as extreme value (negated value)</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefequal_qspace_points">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Assume equal quantity spaces have equal points</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefvalue_branching">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Generate all values for calculated quantities</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPreffast_path">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Apply Fastest Path Heuristic</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPreforder_using_correspondences">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment> 'Apply correspondences in ordering'</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefepsilon_ordering">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Apply epsilon ordering</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefepsilon_merging">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Apply epsilon merging of immediate terminations</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefepsilon_derivative_constraints">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Apply epsilon derivative continuity constraints</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefremove_inactive_quantities">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Remove inactive quantities after transition</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefreasoning_assumptions">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Allow reasoning assumptions</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefassume_conditional_derivatives">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Allow reasoning assumptions on derivatives</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefsecond_order_derivatives">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Calculate 2nd order derivatives</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefderivative_terminations">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Generate derivative terminations (based on 2nd order derivatives)</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefsecond_order_continuity">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Apply 2nd order derivative continuity constraints</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefapply_continuity_d_inequalities">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Apply continuity on derivative inequalities</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPreforder_using_equalities">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Use constants in ordering</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefequal_intervals">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Assume equal length intervals</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefsolve_extra_combinations">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Extra thorough inequality reasoning</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPreffull_branching_derivative_terminations">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Terminate ambiguous derivatives</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPreffull_branching_equality_terminations">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Assume inequality terminations</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPreffull_branching_value_terminations">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Assume value terminations</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefterminate_weak_relations">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Generate terminations for &gt;=, &amp;, &lt;=</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefextra_termination_interpreter">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Use extra termination rules</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPreforder_epsilon_last">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Apply epsilon ordering last</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefremove_corresponding_equality">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Remove terminations to unequal for full corresponding quantities</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefuse_landmarks">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Constrain interaction between possible worlds (derive landmark relations)</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasSimulationPrefmax_depth">
+	<rdfs:label></rdfs:label>
+	<rdfs:comment>Max inequality reasoning depth (integer)</rdfs:comment>
+</owl:DatatypeProperty>
+	 
+</rdf:RDF>

@@ -1,0 +1,203 @@
+/*  File:    algorithm help
+    Purpose: Explain, give help about, GARP algorithm option switches
+    Author:  Floris Linnebank & Bert Bredeweg
+    Date:    September 2004
+
+    Copyright (c) 2004, University of Amsterdam. All rights reserved.
+
+*/
+
+
+
+GARP can use different algorithms in several procedures, this help contains a
+user guide as well as descriptions of all different settings.
+
+            ---------------------------------
+            setting algorithm option switches
+            ---------------------------------
+
+Algorithm assumptions can be changed in the garp shell using the 'am' command.
+This presents a toggle menu. On loading, GARP default settings are used.
+These can be brought back using the 'da' command.
+
+Because a model might be constructed depending on specific settings a mechanism
+for setting model specific defaults is included.
+In the isa file or the rules file, lines can be added specifying the assumption
+and it's needed value in the following format:
+
+algorithm_option_switch( ASSUMPTIONNAME, ON/OFF).
+
+e.g.
+
+algorithm_option_switch( cw_assumption, off ).
+
+This would turn the closed world assumption in influence resolution off.
+
+Please note that if such statements are present they override the default
+settings whenever these are loaded. In other words, using 'da' will reload
+defaults with overrides.
+
+For advanced users: in grprefs.pl (garp/program_files/) the default settings
+are defined and can be changed.
+
+            --------------------------
+            algorithm options switches
+            --------------------------
+
+A description of all algorithm assumptions:
+
+-'Apply closed world assumption in influence resolution'
+default: off
+name: cw_assumption
+description: When evaluating the effects of influences and proportionalities,
+this function firstly sets the derivative of all unaffected quantities
+to zero. (if these derivatives are unknown). In some cases this may conflict
+with later results of the influence resolution, causing a contradiction
+(via an inequality for instance). In this case the corresponding state is
+not generated.
+
+-'Apply closed world assumption in second order influence resolution'
+default: off
+name: cw_assumption_second_order (idem for third order)
+description: When evaluating the second order effects of influences and proportionalities,
+this function firstly sets the (second order) derivative of all unaffected quantities
+to zero. (if these (second order) derivatives are unknown).
+
+-'Derive landmark relations'
+default: off
+name: use_landmarks
+description: In the course of a simulation new inequality relations between
+landmark values may become derivable. With this function these relations are
+added to the state description to prevent simulation branches describing
+different possible worlds from interacting.
+
+-'Assume inequality terminations despite unknown derivatives'
+default: off
+name: full_branching_equality_terminations
+description: a binairy equality like greater(q1, q2) will normally terminate
+only when it is known that their derivatives are unequal. With this assumption
+switched on, GARP will assume unequal derivatives (constrained by relations
+that are known) and firing terminations accordingly.
+
+-'Assume value terminations despite unknown derivatives'
+default: off
+name: full_branching_value_terminations
+description: a quantity will only move if it has a known derivative min or plus
+With this assumption switched on, GARP will assume unequal derivatives
+(constrained by relations that are known) and firing terminations accordingly.
+
+-'Generate terminations for >= & =<'
+default: off
+name: terminate_weak_relations
+description: Normally these weak relations will not terminate, with this
+algorithm assumption they will: >= to > in case of the left side rising relative
+to the right side or to = and < in case of leftdown.
+
+-'Use extra termination rules'
+default: off
+name: extra_termination_interpreter
+description: When using the garp 2.0 transition procedure no termination rules
+are used. (Instead an internal set is used). Use this function to use domain
+specific termination rules on the side. For instance rules that remove system
+elements (water evaporating?). Be sure that no 'old' termination rules are
+in the rules file.
+
+-'Use correspondences in ordering'
+default: on
+name: order_using_correspondences
+description: Correspondences (for values) are a good information source for
+ordering terminations in the transition process. In general correspondences are
+valid throughout a simulation. In a model where the correspondences change from
+state to state, turn this function off.
+
+-'Remove terminations to unequal for full corresponding quantities'
+default: off
+name: remove_corresponding_equality
+description: Turn this function on to remove terminations from equal to unequal
+from the transitions for quantities that have a full correspondence.
+
+-'Use constants in ordering'
+default: on
+name: order_using_equalities
+description: This function uses relations labeled as constant AND relations
+involving addition/subtraction (these are assumed constant) to order
+terminations in the transition process.
+
+-'Apply epsilon ordering'
+default: on
+name: epsilon_ordering
+description: changes from a point and from equality will happen instantly and
+therefore before all other changes which take at least some small epsilon of
+time. In case of an instant change, non instant changes are removed
+
+-'Apply epsilon merging of immediate terminations'
+default: on
+name: epsilon_merging
+description: changes from a point and from equality will happen instantly and
+therefore they should happen all at once. This function groups all immediate
+terminations as much as possible. (mutual exclusive terminations cannot be
+combined, e.g. to interval above / to interval below for the same quantity, in
+a situation where value terminations are assumed despite unknown derivative.)
+
+-'Specify and Match instead of Subsumption'
+default: on
+name: no_subsumption_specify_all
+description: In GARP 1.7.2 a transition either led to existing states
+(subsumption) or to new states. This sometimes caused new successor states
+not to be found, because an existing state was already found. In GARP 2.0 all
+transition scenarios are fully specified and the resulting states are either
+matched to existing states or saved as new.
+
+-'Use only old rule based transition procedure'
+default: off
+name: use_old_transition_rules
+description: This feature turns on the rule based termination, order and close
+procedures used in GARP 1.7. The rules file should be present. The Specify and
+Match distinction still is valid.
+
+-'No quantity space derivative constraints extreme values'
+default: on
+name: free_maxmin_derivative
+description: In some models it can be useful to allow the derivative of a
+quantity to keep increasing or decreasing in the highest or lowest point of the
+quantity space respectively. After changing this switch, start with a new model
+to reset quantity spaces.
+
+-'No quantity space derivative constraints zero as extreme value'
+default: off
+name: free_zero_derivative
+description: In some models it can be useful to allow the derivative of a
+quantity to keep increasing or decreasing in the highest or lowest point of the
+quantity space respectively even if this point is ZERO. Whereas normally it
+would be restricted in this case. After changing this switch, start with a new
+model to reset quantity spaces.
+
+-'Remove inactive quantities'
+default: off
+name: remove_inactive_quantities
+description: This function removes any quantities that are not mentioned
+anymore in the set of active model fragments. Typically this may be a
+quantity associated with a process, where the process stops and disappears.
+
+-'Apply continuity on derivative inequalities'
+default: off
+name: apply_continuity_d_inequalities
+description: The continuity regime in garp releases derivatives over state
+transitions under constraints to ensure continuous change.
+
+-'Allow assumptions on derivatives in reclassifying MFs'
+default: off
+name: allow_d_assumptions_in_reclassifying_mfs
+description: When applying a transition, Model Fragments are reconsidered.
+Assumptions that are not contradictory at this point are kept. Assumptions
+about derivatives should not be made at this point however, for these cannot
+be contradicted because derivatives are set later on in the influence
+resolution procedure. Thus causing Model Fragments to be kept over a transition
+unjustified. Turn this switch on to allow GARP to make assumptions on
+derivatives.
+
+-'No application of analyse zero equality technique'
+default: off
+name: no_analyse_zero
+description: Turn this zero analysis off and slow down the inequality reasoning
+procedure of garp 2.0. No positive effects known ;-)

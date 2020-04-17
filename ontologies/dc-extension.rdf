@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns="http://www.science.uva.nl/~jliem/ontologies/dc-extension.rdf#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xml:base="http://www.science.uva.nl/~jliem/ontologies/dc-extension.rdf">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://purl.org/dc/terms/"/>
+  </owl:Ontology>
+  <owl:DatatypeProperty rdf:ID="limitation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="domain">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/subject"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="keyword">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/subject"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="goal">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="email">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasVersionNumber">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasOWLVersionNumber">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+  </owl:DatatypeProperty>
+
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 2.2, Build 324)  http://protege.stanford.edu -->

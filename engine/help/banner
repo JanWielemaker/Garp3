@@ -1,0 +1,28 @@
+
+                ///////////////   ///////////   ////////   //////////
+               //////                    ///   ///        //     /// 
+              //////                    ///   ///        ///     //  
+             //////   ///////   //////////   ///        //////////   
+            //////        //   //     ///   ///        ///           
+           //////        //   //     ///   ///        ///            
+          ////////////////   //////////   ///        ///             
+
+           --- Generic Architecture for Reasoning about Physics ---
+
+                                Version 2.0
+
+                                  Authors: 
+                                  
+              Bert Bredeweg & Martin Reinders & Floris Linnebank 
+              
+                    Portability patches by Jan Wielemaker
+                 
+    Laboratory of Social Science Informatics (SWI)
+    Roetersstraat 15, NL 1018 WB Amsterdam
+    Phone: (31) 20  525 6788, Fax: (31) 20  525 6896
+
+    E-mail: bert@swi.psy.uva.nl
+    WWW:    http://www.swi.psy.uva.nl/projects/garp
+
+        Copyright (c) 1991-2004, University of Amsterdam. All rights reserved.
+

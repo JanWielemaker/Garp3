@@ -1,0 +1,210 @@
+CHANGELOG:
+
+1.5.2 (November 5th 2012)
+* JL: Fixed running simulations on Windows 7. Bug in XPCE causes temporary files to be
+inaccessible. Use native prolog tmp_file_stream as workaround.
+
+1.5.1 (August 29th 2012)
+* JL: Fixed undefined escaped characters preventing startup of Garp3 with new versions of Prolog.
+* JL: Made required SWI-Prolog version 6.2.0.
+
+1.5.0 (July 3rd 2012)
+* FL: Added comparative analysis
+* FL/JL: Added multiplication and division support
+* FL: Improved second order derivatives and added 3rd order derivatives
+
+1.4.13 (April 1th 2010)
+* FL: Fixed out of stack bug in handling of some causal loops
+
+1.4.12 (February 26th 2010)
+* FL: fixed bug in inequality reasoning: context pointers not correctly updated for calculated quantities
+
+1.4.11 (December 4th 2009)
+* FL: Changed epsilon procedure: if set of immediate terminations becomes empty during ordering, the set of non immediate terminations is no longer tried.
+* JL: Important: Bug in SWI-PL Semantic Web library (URL encoding). Now requires SWI-Prolog 5.8.0.
+* JL: OWL export/import updated. QR model now has URI based on UniqueID. Older unique IDs are saved as owl:priorVersion. 
+* JL: Added Unique ID's for QR models ('save as' changes the uniqueID, save does not). (adds patch)
+* JL: Made exogenous behaviours explicit (globally) in design code: design:exogenous_behaviours/1
+* JL: Fixed bug 126: export/import to/from OWL
+* JL: Changed a comment in ps_bitmap.pl to "fahig" since it gives syntax errors in some terminals.
+* JL: Migrated from Subversion to Git for version management
+
+1.4.10 (March 20th 2009)
+* JL: Fixed bug 125: [OWL] Value Assignments not correctly exported (or imported) 
+
+1.4.9 (February 26th 2009)
+* JL: Fixed bug 122: [OWL] Simulation not imported/exported.
+* JL: Fixed bug 123: [OWL] Garp3 does not show the name of imported OWL files 
+* JL: Fixed bug 124: [OWL] HGP and OWL files can be open at the same time 
+* JL: Fixed typo: 'Assume equal lenght [length] intervals' in Advanced Simulation Preferences.
+
+1.4.8 (July 1th 2008)
+* JL: Added toolbar to please wait dialog window (to be able to minimize it).
+* JL: Changed comment that cause pldoc to give warnings (requires SWI-Prolog 5.6.56)
+* FL: Added switch for extra thorough inequality reasoning (combine all relations with same set of parameters).
+
+1.4.7 (May 15th 2008)
+* JL: Added 'Simulate all scenarios' option in the Simulate evironment.
+* JL: Added "benchmark" code to simulate and save all scenarios in all models in the benchmark directory (full_save_simulation).
+* FL: Changed Exogenous 2nd derivative information causing incorrect behaviours in some cases. 
+
+1.4.6 (April 18th 2008)
+* FL: Added 2nd order derivative information in interface: value list and value history.
+* FL: Fixed bug: correspondence not firing because of pointer update and tautology condition.
+
+1.4.5 (April 4th 2008)
+* FL: Added second order derivative consistency check in state generation for assumed ambiguous derivative terminations.
+* JL: Added benchmark code (simple_benchmark, full_benchmark) and benchmark directory (to include models to be benchmarked).
+* FL: Added simulation preference: assume ambiguous derivative terminations.
+* FL: Moved simulation preference 'Fast Path' from 'advanced' to 'basic' menu.
+* FL: Fixed bug 116: cause: invalid pointer updates on sets of correspondences.
+* FL: Major improvement on inequality reasoning. Reasoning deals with sets of interconnected relations separately.
+* FL: Added simulation preference: Fast Path Heuristic.
+* FL: Added tracerwindow cleared of text more often.
+* FL: Added 2nd order derivative information for exogenous quantities
+* FL: Improved use of landmark information in ordering. 
+* FL: Fixed major problem with MFs with inconsistent consequenses.
+* FL: Improved inequality reasoning (combining derived relations, solving relations within variable context).
+* FL: Added reasoning option: default equality relations between points of the same quantity spaces (equal length intervals). Additions and substractions can become possible without extra inequalities.
+* FL: Fixed bug 91: inconsistent equations. The bug was caused by internal representation function which did not strip zero pointers from additions.
+* FL: Added new reasoning options, and removed some (versionpatch).
+* FL: Added influences sorting before resolving them.
+* FL: Added inequality reasoning depth constraint.
+* FL: Second order derivative continuity constraints checked only for unchanged causal models.
+* FL: Added terminations for derivatives based on 2nd order derivative information.
+* FL: Added epsilon ordering constraints on derivatives. Changes of derivatives from points to intervals are now immediate transitions.
+* FL: Added new exogenous influence: parbola (positive & negative).
+* FL: Transitivity reasoning now correctly reasons with zeros.
+* FL: Added sign addition in influence resolution only balancing influences when needed. (minor speedfix).
+* FL: State matching: New state value datastructure for fast checks on state existence (minor speedfix).
+* FL: Tracer: minor info updates on inconsistent relations, inconsistent scenarios and inconsistent transition content.
+* JL: Added multiple language support.
+* JL: Multiple model support reimplemented to support subchanges (model changes caused by model changes by the modeller).
+* JL: Editors and property dialogs now indicate the model they belong to in their titles.
+* JL: Fixed bug 1: Property dialogs now make the correct model active.
+* JL: Copy/paste now deals correctly with multiple languages.
+* JL: OWL import/export now correctly deals with multiple languages.
+* JL: Fixed bug 54: Made it possible to add remarks to identities.
+* JL: Fixed bug 11: Windows now has a minimize button like Linux and MacOS.
+* JL: Fixed bug 28: Pressing enter in an open menu causes crashes.
+* JL: Fixed bug 36: Visualisation improvement: model fragment contents is moved to the upper-left corner of the screen with some extra whitespace.
+* JL: Fixed bug 83: Requesting scenario properties when editing a scenario causes a crash.
+* JL: Integrated Tooltip branch. SIHW added advanced tooltip functionality.
+* JL: Fixed bug 86: Value history: Select all -> Draw causes crash.
+* JL: Fixed bug 70: Tooltips in the entity hierarchy do not work.
+* JL: Fixed bug 55: Code should use partof_hypers to check for editors. Solved by new multiple model support.
+* JL: Fixed bug 38: Tooltip for 'Simulate scenario X' or 'Open scenario list' does not work.
+* AB: Fixed bug 84: Tooltip added for entity and quantity that appear when model includes general constraints, i.e., equations between multiple quantities.
+* AB: Fixed bug 88: Potential problem in simulation visualisation code related to division by zero has been fixed.
+* JL: Fixed bug 99: Changing quantity space causes MF to become unopenable in build (due to inequalities on removed values).
+* JL: Fixed bug 100/103: Versionpatch fails due to Sketch. Impossible to add concepts to Sketches in DDBR model
+* JL: Fixed bug 104: Sometimes it is impossible to delete certain model fragments.
+* JL: Fixed bug 102: Model corruption occurs when multiple language support is added.
+* JL: Fixed bug 109: [OWL Export] Inequality targetting zero of derivative fails when exporting to OWL.
+* JL: Fixed bug 110: [OWL Import] Garp3 tries to import the same model fragment multiple times (due to multiple inheritance).
+* JL: Fixed bug 111: [OWL Export] An MF with multiple parents has the inherited MF's twice in the OWL representation.
+* JL: Fixed bug 112: [OWL Import] Model fragment is wrongly imported twice.
+
+1.3.9 (May 11th 2007)
+* Simulate: Table view added as alternative to the state-transition graph (in Simulate Display->Settings->Type of View)
+* FL: epsilon ordering is done first, switch needed to opt for epsilon last as before. and appropriate tracer needed
+* FL: added 2nd order derivatives, always on. todo: assume steady derivatives if 2nd is unknown under switch
+* FL: state matching: changed order (minor speedfix)
+* FL New Engine preference: consider points of equal qspaces (same name) to be equal. (button and versionpatch commented out still. hardcoded (switched off)
+
+1.3.8 (April 12th 2007)
+* Revised tracer functionality: normal language, general/critical category, new colours, faster tracing, more info.
+* Sketch: multiple sketches (save and load) possible for Behaviour Graph.
+* Sketch: importing quantities now works analogously to import functionality in other sketches. 
+* Preference name: Apply closed world assumption... changed to: Assume unknown influences to be zero
+* Exogenous increasing and decreasing: Changed semantics, will now come to a stop in endpoint of qspace.
+* Exogenous sinusoidal: had no transitions in single interval quantityspace (fixed)
+* [43] A scenario with two loose entities does not cause a model fragment with a single entity to fire twice. (fixed) 
+* Always constrain values by extreme points of qspace. (before: coupled with derivative contraint switches.)
+* [72] Save-as does not work if the target filename has multiple dots (fixed, gives a warning now)
+* [73] [Versionpatches] Sketch datastructures still not present is some models (fixed)
+* [67] Sketch: multiple relation definitions with same name are now forbidden in sketch
+* [51] Sketch: the Sketch environment now also utilizes relative positions for recording screen layout.
+* [45] Creating a child fragment kills the layout, i.e. the layout is not inherited properly. (fixed)
+* Inequality reasoning: remove weaker >= relations in favor of = relations had very minor bug (fixed)
+* Inequality reasoning: analyse zero equality technique uses bitvectors in stead of pl-lists now, saves translation. (small speedfix)
+* Inequality reasoning: analyse zero equality technique done more often (leads to stricter inconsistency check, fixes rare bug)
+* [9,6] Major improvements to OWL import/export code (dealing with refinements + nested operator relations).
+
+1.3.7 (March 19th 2007)
+* [35] Cloning scenarios does not show the new scenario in the list (fixed) 
+* [37] Tooltip, Editor names and QRM Portal support pages names are not consistent (fixed)
+* [42] Removed 'displayOrigin' from the copy/paste and OWL functionality, since that field is removed in the updated
+layout engine. This bug prevented scenarios and model fragments to be copy/pasted.
+* Multiple sketches (save and load) possible for Causal Model.
+* Added ps-files for sketch icons, allowing export from sketch to eps-files
+* Added icons for edit changes in Sketch environment
+* Renamed sketch icons so that all icons of the same size are used (all small, 17 * 17). This is consistent with the ps-versions of the icons. 
+* Icon added for open selected saved sketch (copy of icon for 'edit changes'). Note: not black yet.
+* Icon added for edit changes in several sketch property editors (this one is black, as it should be)
+* Versionpatch for model definition 12->13: model layout and sketch structural relation definitions
+* [47] Entity, Agent and Assumption hierarchies are now ordered alfabetically (used to be reversed).
+* [6] Major improvements to OWL export/import code (dealing with imported model fragments/refinements)
+* [41] Improved interface for editing inequalities, quantities and values in sketch st-graph editor:
+  - added buttons to add a quantity or value
+  - added buttons to delete a quantity or value (check if Q/V name is used, give warning if necessary)
+  - added radio buttons (values & quantities) to select mode for text field on the right hand side
+  - empty values are deleted from the list of values 
+* Added icon for sketch state (the bubbles tail)
+* Versionpatch for model definition 13->14: Added sketch quantity definitions to sketch stgraph (2 feb 2007)
+* [7] Model fragments are not reused when copy pasting (fixed)
+* [10] Impossible to copy paste refinements (fixed)
+* [56] Entities, Agents and Assumptions do not appear after paste (but are created) (fixed).
+* [57] Changing quantity in view editor does not update screen (fixed).
+* [62] Changing scenario properties does not update scenario list (fixed).
+* [63] Changing a quantity space in a parent which affects inequalities or calculi in child or imported model fragments
+causes the model to become corrupt (fixed)
+* [66] The copy/paste functionality does not reuse copies of model fragments (fixed)
+* [65] Model Fragment Hierarchy (of copyBuffer) is not properly emptied (fixed) 
+* [68] Copying entities, agents or assumptions does not add them to the closest ancestor (fixed)
+* [69] Warnings and errors are not shown on windows (fixed)
+* [44] Improved handling of 'selected states' text field in ST-graph; selection is updated in the graph
+* [61] Improved path search algorithm, and added preferences: cyclic path, begin to end, and select end states. 
+  When memory runs out, Garp3 will not crash anymore, but say 'no path found'. Also shows when busy searching.
+
+1.3.6 (December 12th 2006):
+* Multiple sketches (save and load) possible for Concept map and Structure model
+* [31] Added missing patch detection for Sketches [30]
+* [32] Properties for Identity relations dialog fixed
+* [30] Changing quantity definition names issues (for models without Sketches) solved
+* [33] Deleting quantity instances causes exceptions (fixed)
+
+1.3.5 (November 23th 2006):
+* Completed all import functionality between Sketches in the Sketch environment.
+* [26] Restored legacy mode functionality
+* Some of the help icons in Garp3 now link to the correct support pages. All help icons will have been linked at the end of 2006.
+* Fixed bug [27] Scenarios were not properly removed from the scenario list when deleted.
+
+1.3.4 (November 10th 2006):
+* Changed specification of quantities, entities, agents, and assumptions in sketch for process definitions, agent definitions, and scenario definitions. Instead of one text field, they are now specified individually, with name and remarks. Versionpatch to new model definition version 11.
+* Added sketch import functionality from concept map to process/agent/scenario definitions.
+* Removed trace statement preventing OWL export
+
+1.3.3 (November 6th 2006):
+[#24] New 'File' menu item in Entity, Agent, Assumption, MF Canvas, MF Editor, Scenario Editor, Concept Map, Structural
+Model, Causal Model, and State Graph Editor.
+
+1.3.2 (November 2nd 2006):
+*  Warning: the layout engine has been changed. Models before 1.3.2 will have their layout changed. Modellers have to rearrange the layout of their models! This fixes a long outstanding bug causing model ingredients to appear a long way off screen.
+* .OWL files are now saved as UTF-8 (bigger character-set). Models with symbols can now be uploaded to the repository.
+* Editors should now only update if their associated model changes.
+* Added sketch import functionality from concept map to structure and causal model
+* Reorganized metadata and order of Sketch editors conform to framework
+* Added tabs with more room for text in abstract, model goals, intended audience, and general remarks
+* Bugfix related to quantities in Sketch behaviour graph
+* Bugfix related to updating remarks in sketch (structural) relations
+
+1.3.1 (October 11th 2006):
+* Fixed invisible calculations in the simulate environment
+* Fixed infinite loop when copy/pasting entities when entities with the same name exist (also affected model fragments).
+* Fixed refresh bug in Quantity Definition Editor when copy pasting.
+* Removed copy buffer tab.
+* Added model name in save warnings.
+* Removed save warning when loading a new file.
+* Fixed open scenario list window does not become active when 'Open scenario list' button is pressed'
+
