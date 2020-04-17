@@ -15,19 +15,19 @@ variable(lastValue,char_array,both). %last value before change
 %%
 initialise(D):->
 	%gp3. This is legacy homer code with some changes
-	
+
 	"Initialise the editor" ::
-	
-	D->+initialise('Language Editor','Build_Language'), 
+
+	D->+initialise('Language Editor','Build_Language'),
 	D->>application(@app),
 	D->>kind(toplevel),
-	
+
 	/* Multiple models */
 	%JJ: seems to be a nasty patch for multiple models. Why not put this in assistanceDialog and propertyDialog classes?
 	%(not my pakkie on) (it removes the icons too)
 	% JL: Somehow the changeApplied for delete language only works when there is a frame, therefore this
 	% garpEditorFrame is still needed
-    	get(@model, getModelNameForEditor, 'Language Editor - Build', ModelNameForEditorLabel),
+	get(@model, getModelNameForEditor, 'Language Editor - Build', ModelNameForEditorLabel),
 	new(Garp3EditorFrame, garp3EditorFrame(ModelNameForEditorLabel)),
 	get(@model, '_value', Model),
 	send(Garp3EditorFrame, associateModel, Model),
@@ -41,12 +41,12 @@ displayContent(D, TopY: int):->
 
 	%gp3 Split off from initialise, called by assistanceDialog->initialise, display all stuff
 	%TopY tells us where to start on the Y-axis
-	
+
 	%de onderdelen
 	%De plaatsing doen we zelf op coordinaten, we gebruiken wel de standaard "gap"
 	GapX = D?gap<<-width,
 	GapY = D?gap<<-height,
-	
+
 	%add language combos
 	%language combos only choosing, no typing
 	Lang1 *= eventTextItem(lang1),
@@ -59,7 +59,7 @@ displayContent(D, TopY: int):->
 	Lang1->>value_set(@model?translator?allLanguages), %function is saved, so list will contain all values even after adding or removing one
 	Lang1->>value(@model?translator?currentLanguage),
 	D->>display(Lang1,point(GapX + 100, TopY)), %space for description column
-	
+
 	Lang2 *= eventTextItem(lang2),
 	Lang2->>onKey(->>(@pce,fail)),
 	Lang2->>show_label(@off),
@@ -72,10 +72,10 @@ displayContent(D, TopY: int):->
 		1 = @model?translator?allLanguages<<-size
 	do
 		Lang2->>value(?(@model?translator?allLanguages,find,not(->>(@arg1,equal,@model?translator?currentLanguage)))),
-	
+
 	D->>display(Lang2,point(GapX + 100 + 200,TopY)), %above col3
-	
-	
+
+
 	%translation table
 	ValDev *= window,
 	%window is not found as a member, because of issues with window_decorator
@@ -85,8 +85,8 @@ displayContent(D, TopY: int):->
 	ValDev->>width(500), %default
 	ValDev->>height(300),
 	ValDev->>vertical_scrollbar(@on),
-	
-	Translation *= table,
+
+	Translation *= (table),
 	%hyper too
 	D->>hyper(Translation,transtable),
 	Translation->>cell_spacing(size(0,0)),
@@ -94,7 +94,7 @@ displayContent(D, TopY: int):->
 	Translation->>border(1),
 	Translation->>frame(void),
 	Translation->>rules(all),
-	
+
 	%we wants clicks on the table
 	ValDev->>recogniser(click_gesture(left, message := ->>(D,onCellClick,Translation,@arg1))),
 	Translation->>width(ValDev?width),
@@ -103,12 +103,12 @@ displayContent(D, TopY: int):->
 	Col1->>width(100),
 	Col1->>fixed(@on),
 	Col1->>halign(stretch),
-	
-	Col2 = Translation<<-column(2,@on), 
+
+	Col2 = Translation<<-column(2,@on),
 	Col2->>width(200),
 	Col2->>halign(stretch),
-	
-	Col3 = Translation<<-column(3,@on), 
+
+	Col3 = Translation<<-column(3,@on),
 	Col3->>width(200),
 	Col3->>halign(stretch),
 
@@ -116,8 +116,8 @@ displayContent(D, TopY: int):->
 	ValDev->>layout_manager(Translation),
 
 	D->>display(ValDev,point(GapX,Lang1?bottom_side + GapY)),
-	
-	
+
+
 	Data *= dialog_group(data,group),
 	Value *= editor(height := 5, width := 40),
 	Value->>name(value),
@@ -126,29 +126,29 @@ displayContent(D, TopY: int):->
 	Value->>font(normal),
 	Value->>recogniser(new(handler(keyboard,->>(D,checkNav,@arg1)))), %cannot get it working using ->>binding
 	Data->>display(Value,point(0,0)),
-	
+
 	Change *= imgButton(change, D->>checkSaveCellValue,img:=save, tt:= 'Apply changes'),
 	Change->>default_button(@on),
 	Data->>display(Change,point(ValDev?width - Change?width,0)),
 
 	Value->>right_side(Change?left_side - GapX),
-	
+
 	Defs *= imgButton(editLanguage, ->>(D,onEditLanguage), img:=edit_changes, tt:='Edit languages'),
 	Data->>display(Defs,point(0,Value?bottom_side + GapY)),
-	
+
 	ChangeAllMenu *= menu(changeAllMenu,toggle),
 	ChangeAllMenu->>show_label(@off),
 	ChangeAllMenu->>append(new(_CA,menu_item(changeAll, label:='Change all occurences (if possible)'))),
 
 	Data->>display(ChangeAllMenu,point(Defs?right_side + GapX, Defs?top_side)),
-	
+
 	ChangeAllResult *= label(changeAllResult,''),
 	Data->>display(ChangeAllResult,point(ChangeAllMenu?left_side,ChangeAllMenu?bottom_side + GapY)),
-	
-	Close *= imgButton(close,->>(D,destroy), tt:='Close this editor'), 
+
+	Close *= imgButton(close,->>(D,destroy), tt:='Close this editor'),
 	Data->>display(Close,point(Change?left_side, Defs?top_side)),
-	
-	D->>display(Data,point(GapX,ValDev?decoration?bottom_side + GapY) ),	
+
+	D->>display(Data,point(GapX,ValDev?decoration?bottom_side + GapY) ),
 
 	D->>fillTranslationMap, %fill up
 		%minimal size:
@@ -171,11 +171,11 @@ onChangeLanguage(D):->
 %%
 checkSaveCellValue(D):->
 	%check if we have to save a changed value. This implies using a CR to change something, and maybe change the language for a while
-	
-			
+
+
 	%remove old feedback
 	D?data_member?changeAllResult_member->>selection(''),
-		
+
 	Cell = D<<-lastCell,
 	NewValue = D?data_member?value_member<<-contents,
 	OldValue = D<<-lastValue,
@@ -185,17 +185,17 @@ checkSaveCellValue(D):->
 		\+ NewValue->>equal(OldValue) %changed!
 	)
 	then
-	(	
+	(
 		Language = Cell<<-hypered(language),
 		Object = Cell<<-hypered(object),
 		Tag = Cell<<-hypered(tag),
-		
-		
+
+
 		Translator = @model<<-translator,
-		
+
 		%temporarily change language
 		CurrentLanguage = Translator<<-currentLanguage,
-		
+
 		%check if this will involve a language change
 		%this boolean will also be sent to the real change as "silent": there is no redraw needed when the change involves another language.
 		if
@@ -204,24 +204,24 @@ checkSaveCellValue(D):->
 			ChangeLanguage = @off
 		else
 			ChangeLanguage = @on,
-			
+
 		%to change the language for a while, we do not use an internal method, but the "official" CR
 		%this is because the actual value changing will also be involving CRs,
 		%so there might be some repainting needed following the value changing CR (depending on whether or not this is a temporary language chain)
 		%this is why there is now a "silent" option to changeRequest
-		
-	
+
+
 		if
 			ChangeLanguage = @on
 		then
 			@model->>changeRequestEx(setCurrentLanguage,@model,chain(silent,@on),D,Language), %set silent attribute
-		
+
 		%for the change, we have a whole set of prologclauses below
 		ClassName = Object<<-class_name, %sometimes interesting
-	
+
 		%do we change all cells containing the old value? If so, we process all
 		%and do not quit if a changerequestor fails (that one keeps the old value then)
-		
+
 		if
 			@on = D?data_member?changeAllMenu_member<<-selected(changeAll)
 		then
@@ -243,12 +243,12 @@ checkSaveCellValue(D):->
 		else
 			ignore(pl_changeValue(D,ClassName, Object,Tag,NewValue,ChangeLanguage,@off)), %no need to send language or translatable
 		%and reset language, we need a CR now
-		
+
 		if
 			ChangeLanguage = @on
 		then
 			@model->>changeRequestEx(setCurrentLanguage,@model,chain(silent,@on),D,CurrentLanguage),
-		
+
 		%change the data
 		Cell?image->>clear,
 		Cell?image->>cdata(?(?(Cell,hypered,translatable),valueForLanguage,Language)), %pl_changeValue may have changed the translatable connected
@@ -258,7 +258,7 @@ checkSaveCellValue(D):->
 %
 doChangeAllValues(D,T: table, Old: char_array, New: char_array, Silent: bool, X: int, Y: int,ExtraOk: number, ExtraFail:number):->
 	%helper for checkSaveCellValue. Loop over all cells in column X, changing value to New if it equals Old
-	
+
 	%if we cannot get row number Y, we are done
 	if
 		Row = T<<-row(Y,@off)
@@ -269,9 +269,9 @@ doChangeAllValues(D,T: table, Old: char_array, New: char_array, Silent: bool, X:
 		if
 		(
 			Cell = Row<<-cell(X),
-			Trans = Cell<<-hypered(translatable),	
+			Trans = Cell<<-hypered(translatable),
 			Old->>equal(Trans?value)
-		)		
+		)
 		then
 		(
 			%change it!
@@ -288,14 +288,14 @@ doChangeAllValues(D,T: table, Old: char_array, New: char_array, Silent: bool, X:
 			%change the data to whatever pl_changeValue has made of it
 			Cell?image->>clear,
 			Cell?image->>cdata(Trans?value) %redraw happens in chackSaveCellValue
-			
+
 		),
 		%continue
 		NewY is Y  + 1,
 		D->>doChangeAllValues(T, Old, New, Silent, X, NewY,ExtraOk,ExtraFail)
 	).
-	
-	
+
+
 %%
 
 checkNav(D,E: event):->
@@ -324,7 +324,7 @@ doNav(D, X: int, Y: int):->
 	then
 	(
 		%translatable?
-		if 
+		if
 			New<<-hypered(translatable)
 		then
 			D->>selectCell(New)
@@ -344,12 +344,12 @@ doNav(D, X: int, Y: int):->
 				(Y = 0, NewY = Y)
 			;
 				(Y > 0, NewY is Y + 1)
-			),			
+			),
 			D->>doNav(NewX,NewY)
 		)
 	).
 %%
-	
+
 %%
 
 
@@ -360,12 +360,12 @@ onResize(D, Difference: size):->
 	Transwin->>height(Transwin?height + Difference?height),
 	Transtable = D<<-hypered(transtable),
 	Transtable->>width(Transwin?width),
-	
+
 	Data = D<<-data_member,
 	Data?change_member->>set(x:= Data?change_member?left_side + Difference?width),
 	Data?value_member->>right_side(Data?value_member?right_side + Difference?width),
 	Data?close_member->>set(x:= Data?change_member?left_side),
-	
+
 	Data->>set(y:= Data?top_side + Difference?height),
 	D->>resizeColumns. %recalc them, also done after filling
 %%
@@ -373,13 +373,13 @@ onResize(D, Difference: size):->
 %%
 resizeColumns(D):->
 	%recalc columns sizes
-	
+
 	Transwin = D<<-hypered(transwin),
 	Transtable = D<<-hypered(transtable),
-	
+
 	Col1 = Transtable<<-column(1),
 	Col1->>width(100),
-	
+
 
 	Col2 = Transtable<<-column(2),
 	Col2->>width((Transwin?width - Col1?width) / 2),
@@ -404,7 +404,7 @@ label(D, L: name):<-
 onCellClick(D,Table: table, E: event):->
 	%click in table
 	%select cell and fill data
-		
+
 	Cell = Table<<-cell_from_position(E),
 	Cell->>instance_of(table_cell), %can also be a point
 	D->>selectCell(Cell).
@@ -439,7 +439,7 @@ selectCell(D,Cell: table_cell):->
 currentCell(D, Cell: table_cell):<-
 	%get the currently selected cell or fail if none
 	%assumption: single selection
-	
+
 	Table = D<<-hypered(transtable),
 	Cell = Table?selection<<-head.
 %%
@@ -460,7 +460,7 @@ updateValue(D):->
 		T = Cell<<-hypered(translatable),
 		L = Cell<<-hypered(language),
 		%we allways get the info from the translatable
-		
+
 		(
 			Val = T<<-valueForLanguage(L)
 		;
@@ -485,8 +485,8 @@ updateValue(D):->
 		Data?changeAllMenu_member->>active(@off)
 	).
 %%
-		
-	
+
+
 
 %%fillTranslationMap: create the translationmap
 %main function is fillTranslationMap_Element
@@ -496,14 +496,14 @@ fillTranslationMap(D):->
 	(Lang1 = @model?translator?languages<<-find(->>(@arg1,equal,D?lang1_member?value)); Lang1 = @nil),
 	(Lang2 = @model?translator?languages<<-find(->>(@arg1,equal,D?lang2_member?value)); Lang2 = @nil),
 	Table = D<<-hypered(transtable),
-	
+
 	%display
 	Table->>delete_rows,
-	D->>lastCell(@nil), 
+	D->>lastCell(@nil),
 	D->>updateValue,
-	
+
 	%ok, this is just hardwired stuff now
-	
+
 	%entities
 	%this one is allways there, so no need to check for empty set
 	D->>fillTranslationMap_Category(Table, 'Entities'),
@@ -511,57 +511,57 @@ fillTranslationMap(D):->
 			->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@arg1?name?capitalise,
 						'Name',name,@arg1?name_translatable,
 						'Remarks',remarks, @arg1?remarks_translatable)),
-						
+
 	%attributes, this is a special call because of the values
 	D->>fillTranslationMap_Category(Table, 'Attribute definitions'),
 	@model?sortedAttributeDefinitions->>for_all(
-			->>(D,fillTranslationMap_attributeDef,Table,Lang1,Lang2,@arg1)),	
-	
+			->>(D,fillTranslationMap_attributeDef,Table,Lang1,Lang2,@arg1)),
+
 	%configurationdefs
 	D->>fillTranslationMap_Category(Table, 'Configuration definitions'),
 	@model?sortedConfigurationDefinitions->>for_all(
 			->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@arg1?name?capitalise,
 						'Name',name,@arg1?name_translatable,
 						'Remarks',remarks, @arg1?remarks_translatable)),
-			
+
 	%quantities
 	D->>fillTranslationMap_Category(Table, 'Quantity definitions'),
 	@model?sortedQuantityDefinitions->>for_all(
 			->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@arg1?name?capitalise,
 						'Name',name,@arg1?name_translatable,
 						'Remarks',remarks, @arg1?remarks_translatable)),
-										
+
 	%qs, this is a special call because of the values
 	D->>fillTranslationMap_Category(Table, 'Quantity spaces'),
 	@model?sortedQuantitySpaces->>for_all(											%we just skip @model?dqs, nontranslatable
-			->>(D,fillTranslationMap_qs,Table,Lang1,Lang2,@arg1)),	
-							
+			->>(D,fillTranslationMap_qs,Table,Lang1,Lang2,@arg1)),
+
 	%modelfragments and scenarios are more complicated, because of their elements
-				
+
 	D->>fillTranslationMap_Category(Table,'Scenarios'),
 	@model?sortedInputSystems->>for_all(
-			->>(D,fillTranslationMap_Modelfragment,Table,Lang1,Lang2,@arg1)),	
-			
-			
+			->>(D,fillTranslationMap_Modelfragment,Table,Lang1,Lang2,@arg1)),
+
+
 	D->>fillTranslationMap_Category(Table,'Modelfragments'),
 	@model?sortedModelFragmentsOnly->>for_all(
 			->>(D,fillTranslationMap_Modelfragment,Table,Lang1,Lang2,@arg1)),
 
-			
+
 	%agents
 	D->>fillTranslationMap_Category(Table, 'Agents'),
 	@model?sortedAgents->>for_all(
 			->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@arg1?name?capitalise,
 						'Name',name,@arg1?name_translatable,
-						'Remarks',remarks, @arg1?remarks_translatable)),	
-				
+						'Remarks',remarks, @arg1?remarks_translatable)),
+
 	%assumptions
 	D->>fillTranslationMap_Category(Table, 'Assumptions'),
 	@model?sortedAssumptions->>for_all(
 			->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@arg1?name?capitalise,
 						'Name',name,@arg1?name_translatable,
-						'Remarks',remarks, @arg1?remarks_translatable)),	
-																
+						'Remarks',remarks, @arg1?remarks_translatable)),
+
 	D->>resizeColumns. %recompute column sizes needed after refill, otherwise we get garbage, dont know why
 
 fillTranslationMap_Category(_D, Table: table, Category: name):->
@@ -571,15 +571,15 @@ fillTranslationMap_Category(_D, Table: table, Category: name):->
 	CatCel->>col_span(3),
 	CatCel->>background(orange),
 	Table->>append(CatCel).
-	
-fillTranslationMap_Element(D, Table: table, Lang1: 'string*', Lang2: 'string*', Element: object, 
+
+fillTranslationMap_Element(D, Table: table, Lang1: 'string*', Lang2: 'string*', Element: object,
 													 ContainerLabel: 'char_array*', Entries: 'any...'):->
-													 
+
 	%helper: fill for this element, showing Entries (Label, tag, translatable|function,...)
 	%the translatable arguments (nr3 of every set) are used to get the current value
 	%for some objects you have to use some quote_function(...) construct, because the translatable itself is replaced all the time
 	%see attributedef and quantityspacedef
-	
+
 	%we start with the container, if not @nil
 	unless
 		ContainerLabel == @nil
@@ -595,22 +595,22 @@ fillTranslationMap_Element(D, Table: table, Lang1: 'string*', Lang2: 'string*', 
 	D->>fillTranslationMap_Entries(Table,Lang1,Lang2, Element, Entries, 1).
 %
 
-fillTranslationMap_Entries(_D, _Table: table, _Lang1: 'string*', _Lang2: 'string*', _Element: object, 
+fillTranslationMap_Entries(_D, _Table: table, _Lang1: 'string*', _Lang2: 'string*', _Element: object,
 													Entries: vector, Index: int):->
 	%display 1 entry containing three elements from the Entries vector, and continue
 	%stopclause
-	
+
 	\+ Entries<<-element(Index), %no more entries
 	!.
-%	
-fillTranslationMap_Entries(D, Table: table, Lang1: 'string*', Lang2: 'string*', Element: object, 
-													Entries: vector,Index: int):->	
+%
+fillTranslationMap_Entries(D, Table: table, Lang1: 'string*', Lang2: 'string*', Element: object,
+													Entries: vector,Index: int):->
 	Label = Entries<<-element(Index),
 	Tag = Entries<<-element(Index + 1),
 	Translatable = Entries<<-element(Index + 2), %can be a function too
-	
+
 	%20070419: by request, we show even values that are empty in both languages
-	
+
 
 	%skip if nontranslatable
 	unless
@@ -621,7 +621,7 @@ fillTranslationMap_Entries(D, Table: table, Lang1: 'string*', Lang2: 'string*', 
 		LabelCell *= parbox,
 		LabelCell->>cdata(Label),
 		Table->>append(LabelCell),
-		
+
 		%1st value
 		Lang1Cell *= table_cell(new(parbox)),
 		unless
@@ -636,10 +636,10 @@ fillTranslationMap_Entries(D, Table: table, Lang1: 'string*', Lang2: 'string*', 
 
 		),
 		Table->>append(Lang1Cell),
-		
+
 		%2nd value
 		Lang2Cell *= table_cell(new(parbox)),
-		unless 
+		unless
 			Lang2 == @nil
 		do
 		(
@@ -660,7 +660,7 @@ fillTranslationMap_Entries(D, Table: table, Lang1: 'string*', Lang2: 'string*', 
 %%
 fillTranslationMap_attributeDef(D,Table: table, Lang1: 'string*', Lang2: 'string*', AD: garpAttributeDefinition):->
 	%call for filling map for 1 attributeDefinition
-	
+
 	D->>fillTranslationMap_Element(Table,Lang1,Lang2,AD,AD?name?capitalise,
 						'Name',name,AD?name_translatable,
 						'Remarks',remarks, AD?remarks_translatable),
@@ -679,7 +679,7 @@ fillTranslationMap_attributeDefValue(D,Table: table, Lang1: 'string*', Lang2: 's
 %%
 fillTranslationMap_qs(D,Table: table, Lang1: 'string*', Lang2: 'string*', QS: quantitySpace):->
 	%call for filling map for 1 quantitySpace
-	
+
 	%do not even show when nothing is translatable
 	unless
 	(
@@ -688,7 +688,7 @@ fillTranslationMap_qs(D,Table: table, Lang1: 'string*', Lang2: 'string*', QS: qu
 		\+ QS?values->>find(->>(@arg1,translatable))
 	)
 	do
-	(	
+	(
 		D->>fillTranslationMap_Element(Table,Lang1,Lang2,QS,QS?name?capitalise,
 						'Name',name,QS?name_translatable,
 						'Remarks',remarks, QS?remarks_translatable),
@@ -704,15 +704,15 @@ fillTranslationMap_QSValue(D,Table: table, Lang1: 'string*', Lang2: 'string*', Q
 	D->>fillTranslationMap_Element(Table,Lang1,Lang2,tuple(QS,ID),@nil,'Value',qsValue,
 						quote_function(?(QS?values,find,@arg1?id == ID)?valueName_translatable)).
 %%
-	
+
 %%
 fillTranslationMap_Modelfragment(D,Table: table, Lang1: 'string*', Lang2: 'string*', MF: modelFragment):->
 	%call for filling map for 1 modelfragment
-	
+
 	D->>fillTranslationMap_Element(Table,Lang1,Lang2,MF,MF?name?capitalise,
 						'Name',name,MF?name_translatable,
 						'Remarks',remarks, MF?remarks_translatable),
-	
+
 
 	%Instances
 	Instances = MF<<-findElements(garpInstance),
@@ -721,21 +721,21 @@ fillTranslationMap_Modelfragment(D,Table: table, Lang1: 'string*', Lang2: 'strin
 		->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@nil,
 					'Instance - name',name,@arg1?name_translatable,
 					'   - remarks', remarks, @arg1?remarks_translatable)),
-					
+
 	%assumption instances
 	AssumptionInstances = MF<<-findElements(assumptionInstance),
 	AssumptionInstances->>sort(?(@arg1?name,compare,@arg2?name)),
 	AssumptionInstances->>for_all(
 		->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@nil,
 					create(string,'Assumption \'%s\' - remarks',@arg1?name), remarks, @arg1?remarks_translatable)),
-					
+
 	%attributes
 	Attributes = MF<<-findElements(garpAttribute),
 	Attributes->>sort(?(@arg1?name,compare,@arg2?name)),
 	Attributes->>for_all(
 		->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@nil,
 					create(string,'Attribute \'%s\' - remarks',@arg1?name), remarks, @arg1?remarks_translatable)),
-					
+
 	%configurations
 	Configurations = MF<<-findElements(configuration),
 	Configurations->>for_all(
@@ -747,44 +747,44 @@ fillTranslationMap_Modelfragment(D,Table: table, Lang1: 'string*', Lang2: 'strin
 	Quantities->>for_all(
 		->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@nil,
 					create(string,'Quantity \'%s\' - remarks',@arg1?name), remarks, @arg1?remarks_translatable)),
-					
+
 	%inequealities
 	Inequalities = MF<<-findElements(inequality),
 	Inequalities->>for_all(
 		->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@nil,
 					'Inequality - remarks', remarks, @arg1?remarks_translatable)),
-						
+
 	%correspondences:
 	Correspondences = MF<<-findElements(correspondence),
 	Correspondences->>for_all(
 		->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@nil,
 					'Correspondence - remarks', remarks, @arg1?remarks_translatable)),
-					
+
 	%quantity relations
 	QuantityRelations = MF<<-findElements(garpQuantityRelation),
 	QuantityRelations->>for_all(
 		->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@nil,
 					create(string,'%s - remarks',when(@arg1?type == 'prop', 'Proportionality','Influence')), remarks, @arg1?remarks_translatable)),
-															
+
 	%calculi
 	Calculi = MF<<-findElements(calculus),
 	Calculi->>for_all(
 		->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@nil,
 					'Calculus - remarks', remarks, @arg1?remarks_translatable)),
-						
+
 	%fragmentRefiners and importedFragments (not parents)
 	ImportedFragments = MF<<-findElements(importedFragment),
 	ImportedFragments->>sort(?(@arg1?name,compare,@arg2?name)),
 	ImportedFragments->>for_all(
 		->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@nil,
 					create(string,'Model fragment \'%s\' - remarks',@arg1?name), remarks, @arg1?remarks_translatable)),
-					
-	%identities				
+
+	%identities
 	Identities = MF<<-findElements(identityRelation,@off), %no subclasses (fragmentRefinerIdentity)
 	Identities->>for_all(
 		->>(D,fillTranslationMap_Element,Table,Lang1,Lang2,@arg1,@nil,
 					'Identity - remarks', remarks, @arg1?remarks_translatable)).
-										
+
 %%%%CHANGING VALUE
 
 %this is called from onChangeValue above
@@ -807,18 +807,18 @@ pl_changeValue(D,garpAttributeDefinition,Object,name,NewValue,Silent, Nofeedback
 %attribute definition
 pl_changeValue(D,garpAttributeDefinition,Object,remarks,NewValue,Silent, Nofeedback):-
 	@model->>changeRequestEx(changeAttributeDef, Object,chain(silent,Silent,nofeedback,Nofeedback),  D, Object?name, Object?values, NewValue).
-	
+
 pl_changeValue(D,tuple,Object,attribDefValue,NewValue,Silent, Nofeedback):-
 	%this one is complicated. We want a new valueReference containing a copy of the old translatable, with only the current language changed
 	%object is a tuple: the definition + the id of the changed value
-	
+
 	AD = Object<<-first,
 	Values = AD<<-values, %gives a copy
 	ThisOne = Values<<-find(@arg1?id ==Object?second),
 	ThisOne->>valueName(NewValue), %only this language
 	@model->>changeRequestEx(changeAttributeDef,AD,chain(silent,Silent,nofeedback,Nofeedback), D,AD?name,Values,AD?remarks).
 %%
-	
+
 %%configurationDefinition
 pl_changeValue(D,configurationDefinition,Object,name,NewValue,Silent, Nofeedback):-
 	@model->>changeRequestEx(changeConfigurationDef, Object,chain(silent,Silent,nofeedback,Nofeedback),  D, NewValue, Object?remarks).
@@ -826,7 +826,7 @@ pl_changeValue(D,configurationDefinition,Object,name,NewValue,Silent, Nofeedback
 %%configurationDefinition
 pl_changeValue(D,configurationDefinition,Object,remarks,NewValue,Silent, Nofeedback):-
 	@model->>changeRequestEx(changeConfigurationDef, Object,chain(silent,Silent,nofeedback,Nofeedback),  D, Object?name, NewValue).
-	
+
 %%quantitydef
 pl_changeValue(D,garpQuantityDefinition,Object,name,NewValue,Silent, Nofeedback):-
 	@model->>changeRequestEx(changeQuantityDef, Object,chain(silent,Silent,nofeedback,Nofeedback),  D, NewValue, Object?allowedQuantitySpaces, Object?remarks).
@@ -843,18 +843,18 @@ pl_changeValue(D,quantitySpace,Object,name,NewValue,Silent, Nofeedback):-
 %quantityspace
 pl_changeValue(D,quantitySpace,Object,remarks,NewValue,Silent, Nofeedback):-
 	@model->>changeRequestEx(changeQuantitySpace, Object,chain(silent,Silent,nofeedback,Nofeedback),  D, Object?name, Object?values, NewValue).
-%	
+%
 pl_changeValue(D,tuple,Object, qsValue,NewValue,Silent, Nofeedback):-
 	%this one is complicated. We want a new valueReference containing a copy of the old translatable, with only the current language changed
 	%object is a tuple: the definition + the id of the changed value
-	
+
 	QS = Object<<-first,
 	Values = QS<<-values, %gives a copy
 	ThisOne = Values<<-find(@arg1?id ==Object?second),
 	ThisOne->>valueName(NewValue), %only this language
 	@model->>changeRequestEx(changeQuantitySpace,QS,chain(silent,Silent,nofeedback,Nofeedback), D,QS?name,Values,QS?remarks).
-%	
-	
+%
+
 %modelfragments and scenarios
 pl_changeValue(D,modelFragment,Object,name,NewValue,Silent, Nofeedback):-
 	@model->>changeRequestEx(changeMF,Object,chain(silent,Silent,nofeedback,Nofeedback), D,NewValue,Object?remarks,Object?parents,Object?active).
@@ -904,7 +904,7 @@ pl_changeValue(D,_,Object,remarks,NewValue,Silent, Nofeedback):-
 	@model->>changeRequestEx(changeConditionalFragment, Object?fragment,chain(silent,Silent,nofeedback,Nofeedback),  D, Object,NewValue).
 %
 pl_changeValue(D,identityRelation,Object,remarks,NewValue,Silent, Nofeedback):-
-	@model->>changeRequestEx(changeConditionalFragment, Object?fragment,chain(silent,Silent,nofeedback,Nofeedback),  D, Object,NewValue).			
+	@model->>changeRequestEx(changeConditionalFragment, Object?fragment,chain(silent,Silent,nofeedback,Nofeedback),  D, Object,NewValue).
 %
 
 %%
@@ -912,11 +912,11 @@ pl_changeValue(D,identityRelation,Object,remarks,NewValue,Silent, Nofeedback):-
 
 changeApplied_setCurrentLanguage(_D,
 	_CR: changeRequestor):->
-	
+
 	%we do nothing (overwriting superclass)
 	true.
 %%
-	
+
 changeApplied_deleteLanguage(D, CR: changeRequestor):->
 	if
 	    D?lang1_member?value->>equal(CR?arg1)
@@ -929,7 +929,7 @@ changeApplied_deleteLanguage(D, CR: changeRequestor):->
 	    D?lang2_member?value->>equal(CR?arg1)
 	then
 	(
-	    D?lang2_member->>value(''), 
+	    D?lang2_member->>value(''),
 	    D->>fillTranslationMap
 	).
 %%
@@ -948,14 +948,14 @@ changeApplied_changeLanguageName(D,CR: changeRequestor):->
 	    D?lang1_member?value->>equal(CR?arg1)
 	then
 	(
-	    D?lang1_member->>value(CR?arg2), 
+	    D?lang1_member->>value(CR?arg2),
 	    D->>fillTranslationMap
 	),
 	if
 	    D?lang2_member?value->>equal(CR?arg1)
 	then
 	(
-	    D?lang2_member->>value(CR?arg2), 
+	    D?lang2_member->>value(CR?arg2),
 	    D->>fillTranslationMap
 	).
 
@@ -967,7 +967,7 @@ changeApplied_changeLanguageName(D,CR: changeRequestor):->
 %helper dialog for changing language settings
 
 initialise(D, Editor: editor = languageEditor):->
-	D->+initialise('Language settings','Build_Language_settings'), 
+	D->+initialise('Language settings','Build_Language_settings'),
 	D->>application(@app),
 	D->>transient_for(Editor),
 	D->>hyper(Editor,editor),
@@ -978,24 +978,24 @@ initialise(D, Editor: editor = languageEditor):->
 	D->>icon(@build_icon),
 
 	/* Multiple model support */
-    	get(@model, getModelNameForEditor, 'Language Settings - Build', ModelNameForEditorLabel),
+	get(@model, getModelNameForEditor, 'Language Settings - Build', ModelNameForEditorLabel),
 	new(Garp3EditorFrame, garp3EditorFrame(ModelNameForEditorLabel)),
 	get(@model, '_value', Model),
 	send(Garp3EditorFrame, associateModel, Model),
 	send(Garp3EditorFrame, append, D).
-%% 
-		
+%%
+
 %%
 displayContent(D, TopY: int):->
 
 	%gp3 Split off from initialise, called by assistanceDialog->initialise, display all stuff
 	%TopY tells us where to start on the Y-axis
-	
+
 	%de onderdelen
 	%De plaatsing doen we zelf op coordinaten, we gebruiken wel de standaard "gap"
 	GapX = D?gap<<-width,
 	GapY = D?gap<<-height,
-	
+
 	CurrentLanguage *= eventTextItem(currentLanguage),
 	CurrentLanguage->>onKey(->>(@pce,fail)),
 	CurrentLanguage->>label('Set current language:'),
@@ -1004,11 +1004,11 @@ displayContent(D, TopY: int):->
 	CurrentLanguage->>editable(@on),
 	CurrentLanguage->>value_set(@model?translator?allLanguages), %function is saved, so list will contain all values even after adding or removing one
 	CurrentLanguage->>value(@model?translator?currentLanguage),
-	D->>display(CurrentLanguage,point(0,TopY)),	
+	D->>display(CurrentLanguage,point(0,TopY)),
 	CL_go *= button(clgo,->>(D,onChangeCurrentLanguage)),
 	CL_go->>label('go'),
 	CL_go->>height(CurrentLanguage?height),
-		
+
 	AddLanguage *= eventTextItem(addLanguage),
 	AddLanguage->>onKey(->>(@pce,fail)),
 	AddLanguage->>label('Activate language:'),
@@ -1017,11 +1017,11 @@ displayContent(D, TopY: int):->
 	AddLanguage->>editable(@on),
 	AddLanguage->>value_set(@model?translator?iso639Languages), %function is saved, so list will contain all values even after adding or removing one
 	AddLanguage->>value(@model?translator?iso639Languages?head?value),
-	D->>display(AddLanguage,point(0,CurrentLanguage?bottom_side + GapY)),	
+	D->>display(AddLanguage,point(0,CurrentLanguage?bottom_side + GapY)),
 	AL_go *= button(algo,->>(D,onAddLanguage)),
 	AL_go->>label('go'),
 	AL_go->>height(AddLanguage?height),
-	
+
 	DeleteLanguage *= eventTextItem(deleteLanguage),
 	DeleteLanguage->>onKey(->>(@pce,fail)),
 	DeleteLanguage->>label('Deactivate language:'),
@@ -1030,11 +1030,11 @@ displayContent(D, TopY: int):->
 	DeleteLanguage->>editable(@on),
 	DeleteLanguage->>value_set(@model?translator?allLanguages), %function is saved, so list will contain all values even after adding or removing one
 	DeleteLanguage->>value(@model?translator?currentLanguage),
-	D->>display(DeleteLanguage,point(0,AddLanguage?bottom_side + GapY)),	
+	D->>display(DeleteLanguage,point(0,AddLanguage?bottom_side + GapY)),
 	DL_go *= button(dlgo,->>(D,onDeleteLanguage)),
 	DL_go->>label('go'),
 	DL_go->>height(DeleteLanguage?height),
-	
+
 	RenameLanguage *= eventTextItem(renameLanguage),
 	RenameLanguage->>onKey(->>(@pce,fail)),
 	RenameLanguage->>label('Rename language:'),
@@ -1052,15 +1052,15 @@ displayContent(D, TopY: int):->
 	RL_go *= button(algo,->>(D,onRenameLanguage)),
 	RL_go->>label('go'),
 	RL_go->>height(RenamedLanguage?height),
-	
-	%align labels:		
+
+	%align labels:
 	LangLabels *= number(0),
 	LangLabels->>maximum(CurrentLanguage?label_width),
 	LangLabels->>maximum(AddLanguage?label_width),
 	LangLabels->>maximum(DeleteLanguage?label_width),
-	LangLabels->>maximum(RenameLanguage?label_width),  
-	LangLabels->>maximum(RenamedLanguage?label_width), 
-	
+	LangLabels->>maximum(RenameLanguage?label_width),
+	LangLabels->>maximum(RenamedLanguage?label_width),
+
 	CurrentLanguage->>label_width(LangLabels),
 	D->>display(CL_go,point(CurrentLanguage?right_side + GapX,CurrentLanguage?top_side)),
 	AddLanguage->>label_width(LangLabels),
@@ -1099,7 +1099,7 @@ onDeleteLanguage(D):->
 		@model->>changeRequest(deleteLanguage,@model,?(D,hypered,editor),Lang)
 	).
 %%
-	
+
 %%
 onAddLanguage(D):->
 	Lang = D?addLanguage_member<<-selection,
@@ -1131,7 +1131,7 @@ onRenameLanguage(D):->
 %%%%% CHANGE REQUESTORS %%%%%%
 changeApplied_setCurrentLanguage(_D,
 	_CR: changeRequestor):->
-	
+
 	%we do nothing (overwriting superclass)
 	true.
 %%

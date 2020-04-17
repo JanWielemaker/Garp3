@@ -1199,7 +1199,7 @@ gen_simulation_view(VG, Layout: bool):->
         record_transitions(state_graph),
         ViewType = @app<<-setting(simulation_view_type),
         if
-          ViewType = table
+          ViewType = (table)
         then
           send(VG, draw_table),
         if
@@ -3718,7 +3718,7 @@ select_state_graph_transitions(F, From):-
 %
 select_state_table_transitions(F, From):-
         ViewType = @app<<-setting(simulation_view_type),
-	ViewType == table,!,
+	ViewType == (table),!,
 	forall(rec_transition(From, To),
 	       select_table_transition(F, From, To)
         ).
