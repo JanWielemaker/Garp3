@@ -253,7 +253,7 @@ canHide(_C):->
 
 %%
 checkDisplayed(C):->
-	%hide wanneer één vd twee argumenten hidden is of wanneer onze hidden flag staat
+	%hide wanneer Ã©Ã©n vd twee argumenten hidden is of wanneer onze hidden flag staat
 	if (
 		@on = C?arg1<<-displayed ,
 		@on = C?arg2<<-displayed,

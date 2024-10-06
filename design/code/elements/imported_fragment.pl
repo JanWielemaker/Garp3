@@ -2,7 +2,7 @@
 Definitie importedFragment class: verwijzing naar een ander fragment dat conditioneel is in dit fragment of
 parent is van dit fragment
 Vooral gebruikt om bij subelementen in het huidige fragment te kunnen verwijzen naar een element in het
-geïmporteerde fragment (via de route informatie)
+geÃ¯mporteerde fragment (via de route informatie)
 
 Part of Garp3, see copyright notice
 Most code old dutch homer code

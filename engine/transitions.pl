@@ -1140,7 +1140,7 @@ Terminate ambiguous derivatives will be default active.
 This gives us assumed immediate terminations: XI.
 Possibilities:
 - There are non-assumed immediate terminations: I
-These I’s will happen all (merge immidiate) This set is combined with
+These IÂ’s will happen all (merge immidiate) This set is combined with
 the crossproduct of all XI's (also the empty set), because XI's
 do not have to happen, it depends on what specific state is
 actually captured in the generic state description (which is not

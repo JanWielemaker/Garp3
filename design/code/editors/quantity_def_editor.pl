@@ -844,7 +844,7 @@ changeApplied_changeQuantityDef(D,CR):->
 	D->>fillQuantityList,
 	NewSelection = List?members<<-find(@arg1?object == SelectedQD),
 	List->>selection(NewSelection),
-	%ok, als SelectedQD gelijk is aan het object van de CR én aan de interne <-quantityDef
+	%ok, als SelectedQD gelijk is aan het object van de CR Ã©n aan de interne <-quantityDef
 	%dan moeten we opnieuw inlezen
 
 	(	

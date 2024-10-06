@@ -757,7 +757,7 @@ splitInterval(D):->
 %%
 combineIntervals(D):->
 	"Combine intervals button clicked" ::
-	%dus deze interval-punt-interval moet samengevoegd worden in één interval
+	%dus deze interval-punt-interval moet samengevoegd worden in Ã©Ã©n interval
 
 	Value = D?qsShow<<-value,
 	Low = D?qsShow?nextItem<<-key,
@@ -1111,7 +1111,7 @@ changeApplied_changeQuantitySpace(D,CR):->
 	D->>fillQSList,
 	D?qsList->>selection(SelectedQS), %dit kan gewoon ipv helemaal find etc
 
-	%ok, als SelectedQS gelijk is aan het object van de CR én aan de interne <-quantitySpace
+	%ok, als SelectedQS gelijk is aan het object van de CR Ã©n aan de interne <-quantitySpace
 	%dan moeten we opnieuw inlezen
 	if
 	    (	CR->>checkObject(SelectedQS),

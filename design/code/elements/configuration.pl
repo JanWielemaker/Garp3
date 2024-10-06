@@ -48,7 +48,7 @@ name(C,
 checkDeleteElement(C,
 	Element: fragmentElement,
 	CR: changeRequestor):->
-	%overwrite van fragmentElement: als één van onze argumenten Import in zijn 
+	%overwrite van fragmentElement: als Ã©Ã©n van onze argumenten Import in zijn 
 	%route heeft, gaan we deze relatie verwijderen via een subchange
 
 	if
@@ -110,8 +110,8 @@ checkChangedConfiguration(C,
 
 	%2: de ontvanger zit in hetzelfde of een algemener fragment
 	%als de ontvanger algemener is, zit zijn MF in beide argumentroutes
-	%(niet slechts in één, want dan kan het andere op een andere wijze
-	%geïmporteerd zijn, bijvoorbeeld via een aparte applies-to)
+	%(niet slechts in Ã©Ã©n, want dan kan het andere op een andere wijze
+	%geÃ¯mporteerd zijn, bijvoorbeeld via een aparte applies-to)
 	
 	if
 	(

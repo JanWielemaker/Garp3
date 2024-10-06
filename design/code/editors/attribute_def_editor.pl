@@ -792,7 +792,7 @@ changeApplied_changeAttributeDef(D,CR):->
 	D->>fillDefList,
 	D?defList_member->>selection(Selected), 
 
-	%ok, als Selected gelijk is aan het object van de CR én aan de interne <-attributeDef
+	%ok, als Selected gelijk is aan het object van de CR Ã©n aan de interne <-attributeDef
 	%dan moeten we opnieuw inlezen
 
 	if

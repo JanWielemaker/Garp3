@@ -8,7 +8,7 @@ Definitie garpQuantity class
 		  "definition of quantity element of model fragments"
 		 ).
 
-variable(instanceRoute, chain, none). %route van geïmporteerde fragmenten om vanuit
+variable(instanceRoute, chain, none). %route van geÃ¯mporteerde fragmenten om vanuit
 									%deze quantity bij de bijbehorende garpInstance te komen
 variable(quantityAssumptions, chain, both, "List of quantityAssumption keywords like generate_all_values etc"). %gp 0.3.15, modeldefinition 8. %kept this one a free list to make it more flexible
 %%

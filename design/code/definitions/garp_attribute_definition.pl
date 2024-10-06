@@ -143,7 +143,7 @@ applyChange_changeAttributeDef(AD,
 
 checkChange_addConfigurationDef(AD,
 	CR:changeRequestor):->
-	%checken op naamconflict: configuratie + attributen delen één namespace
+	%checken op naamconflict: configuratie + attributen delen Ã©Ã©n namespace
 
 	NewName = CR<<-argument(1),
 	NewName->>equalExportName(AD?name),

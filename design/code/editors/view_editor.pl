@@ -957,7 +957,7 @@ onGivenAttribute(VE):->
 %%conditionQuantity
 checkConditionQuantity(VE):->
 	%mag in static, process en agent
-	%en er moet een conditioneel of geïmporteerde instantie zijn geselecteerd
+	%en er moet een conditioneel of geÃ¯mporteerde instantie zijn geselecteerd
 	checkEditorState(VE,
 			 [staticFragment,processFragment,agentFragment],
 			 any,
@@ -1015,9 +1015,9 @@ checkConditionValue(VE):->
 	/*Dit mag in alle fragmenten, wanneer er een waarde element is geselecteerd die
 	  zelf bij een conditionele quantity hoort. 
 	  Mag natuurlijk niet in inputsystems
-	Bij een geïmporteerde quantity mag er uberhaupt geen waarde zijn: DWZ: we kunnen daar niet
-	een geïmporteerde waarde verwijderen, dus mag er alleen een waarde worden toegevoegd wanneer er nog
-	niet één is.
+	Bij een geÃ¯mporteerde quantity mag er uberhaupt geen waarde zijn: DWZ: we kunnen daar niet
+	een geÃ¯mporteerde waarde verwijderen, dus mag er alleen een waarde worden toegevoegd wanneer er nog
+	niet Ã©Ã©n is.
 	*/
 
 	%dit kan niet handig via checkEditorState, dus apart
@@ -1025,9 +1025,9 @@ checkConditionValue(VE):->
 	%geen inputsystem
 	\+ VE?fragment->>isInputSystem,
 	
-	%we checken of het element een conditie is in dit fragment of geïmporteerd
+	%we checken of het element een conditie is in dit fragment of geÃ¯mporteerd
 
-	%check op conditie of geïmporteerd
+	%check op conditie of geÃ¯mporteerd
 	S = VE<<-singleSelection,
 	(
 		qsValueElement = S<<-name
@@ -1044,7 +1044,7 @@ checkConditionValue(VE):->
 		Q->>isCondition
 	else	
 	(
-		%het mag alleen als er nog geen geïmporteerde value is
+		%het mag alleen als er nog geen geÃ¯mporteerde value is
 		if
 			qsValueElement = S<<-name
 		then
@@ -1104,7 +1104,7 @@ checkGivenValue(VE):->
 	/*
 	Dit mag in alle fragmenten wanneer er een waarde element is geselecteerd die bij een conditionele
 	of given quantity hoort.
-	Bij geïmporteerde mag het weer alleen wanneer er niet al een waarde is
+	Bij geÃ¯mporteerde mag het weer alleen wanneer er niet al een waarde is
 
 	*/
 	%1) Waarde element?
@@ -1166,7 +1166,7 @@ onGivenValue(VE):->
 checkConditionConfiguration(VE):->
 	%mag in static, process en agent
 
-	%ze zijn of conditie, of geïmporteerd / parent
+	%ze zijn of conditie, of geÃ¯mporteerd / parent
 	checkEditorState(VE,
 			[staticFragment,processFragment,agentFragment],
 			any,any,
@@ -1214,7 +1214,7 @@ onGivenConfiguration(VE):->
 %%conditionInequality
 checkConditionInequality(VE):->
 	%mag in static, process en agent, en er moeten 2 elementen zijn geselecteerd
-	%(tenzij het een waarde punt uit een qs is, dan is één element voldoende)
+	%(tenzij het een waarde punt uit een qs is, dan is Ã©Ã©n element voldoende)
 	%waarbij weer van alles moet gelden
 	%dit gaat een beetje te ver voor checkEditorState, dus moeten we het opsplitsen. 
 	%checken op of die inequality er al is gebeurt in de CR
@@ -1235,7 +1235,7 @@ checkConditionInequality(VE):->
 	;
 		(
 			FirstMF = First?fragmentElement<<-fragment,
-			\+ FirstMF = VE<<-fragment %geïmporteerd / parent
+			\+ FirstMF = VE<<-fragment %geÃ¯mporteerd / parent
 		)
 	),
 
@@ -1382,7 +1382,7 @@ onGivenInequality(VE):->
 %bij inequality(argument, argumentroute, type element + qs waarde of @nil)
 %faalt als er een combinatie wordt meegegeven waarbij geen inequality mogelijk is
 %verder geen check op conditie/consequentie e.d.
-%als element + type kan ook none worden meegegeven, dit in het geval dat er maar één element is geselecteerd
+%als element + type kan ook none worden meegegeven, dit in het geval dat er maar Ã©Ã©n element is geselecteerd
 
 pl_inequalityType(El1,quantityElement,El2,quantityElement,
 							El1?fragmentElement,El1?route, currentValue,@nil,
@@ -1745,12 +1745,12 @@ onAddModelFragment(VE):->
 
 %%addIdentity
 checkAddIdentity(VE):->
-	%twee instanties waarvan minstens één geïmporteerd, en niet
-	%in dezelfde import. Als niet geïmporteerd dan conditie
+	%twee instanties waarvan minstens Ã©Ã©n geÃ¯mporteerd, en niet
+	%in dezelfde import. Als niet geÃ¯mporteerd dan conditie
 	%check of er geen structuur tussen zit gebeurt in CR
 	%zij zijn ook van hetzelfde type (entity/agent)
 	
-	%ze zijn of conditie, of geïmporteerd / parent
+	%ze zijn of conditie, of geÃ¯mporteerd / parent
 	checkEditorState(VE,any,inputSystem,any,
 				[[instanceElement,instanceElement]/
 						[condition,imported,parent]]),
@@ -1917,7 +1917,7 @@ onProperties(VE):->
 	then
 		ReadOnly = @off
 	else
-		ReadOnly = @on, %alleen readonly bij geïmporteerde zaken
+		ReadOnly = @on, %alleen readonly bij geÃ¯mporteerde zaken
 	Type = Element<<-name,
 	FE = Element<<-fragmentElement,
 	Fragment = VE<<-fragment,
@@ -3149,7 +3149,7 @@ displayInstance(VE,
 	%opgehaald wordt. Het element wordt dan meteen afgebeeld.
 	%wanneer er een importedMFElement is meegestuurd wordt de instance daar een sub van
 	
-		%sub van geïmporteerd fragment?
+		%sub van geÃ¯mporteerd fragment?
 		default(IMF,@nil,RC),
 
 	(
@@ -3741,7 +3741,7 @@ findFirstElement(VE,
 	FragmentElement: any,
 	ClassName: [name],
 	Element: graphical):<-
-	%als findElements, maar geeft maar één element terug (eerstgevonden)
+	%als findElements, maar geeft maar Ã©Ã©n element terug (eerstgevonden)
 	%en alleen visualElement subs
 	
 	Element = VE?client?graphicals<<-find(and(
@@ -3914,7 +3914,7 @@ Combination: [{elementtype|any}/{[State,...]|any},....] of [{elementtype|any},..
 State: condition|consequence|imported|parent|fixed	
 
 Voor AllowedFragments, DisallowedFragments, AllowedSelectionTypes en de Statelijst in AllowedCombinations
-geldt dat er geen lijst hoeft te worden gebruikt als het om maar één element gaat.
+geldt dat er geen lijst hoeft te worden gebruikt als het om maar Ã©Ã©n element gaat.
 
 Voorbeeld
 checkEditorState(VE,[processFragment,agentFragment],any,2,

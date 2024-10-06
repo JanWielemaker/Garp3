@@ -9,9 +9,9 @@ Definitie sketchGenericRelationElement class
 		  "Abstract parent of classes for relation in sketches"
 		 ).
 
-variable(argument1Route,chain,none). %route van geïmporteerde sketchen om vanuit
+variable(argument1Route,chain,none). %route van geÃ¯mporteerde sketchen om vanuit
 									%deze relatie bij het eerste argument te komen
-variable(argument2Route,chain,none). %route van geïmporteerde sketchen om vanuit
+variable(argument2Route,chain,none). %route van geÃ¯mporteerde sketchen om vanuit
 									%deze relatie bij het tweede argument te komen
 
 %%

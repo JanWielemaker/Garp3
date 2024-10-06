@@ -1902,7 +1902,7 @@ Voor het doorchecken van een heel rijtje parents moet een loopje gemaakt worden.
 norm_FragmentInheritance(_M, NewParent: modelFragment, Parents: chain, Object: [modelFragment*],
 	Result: {ok,isObject,isChild,isParent,isParentChild,isChildParent,cyclic}):<-
 
-	%resultaat: ok, isObject( NewParent is gelijk aan het gegeven object), isChild (NewParent is child van gegeven object), isParent (NewParent is al parent, of rechtlijnige voorvader van een element uit de Parents chain), isParentChild (NewParent is een child van een element uit de Parents chain), isChildParent(NewParent is een rechtstreekse parent van één van de children van het object), cyclic (NewParent heeft het object direct of indirect als conditie, dus dat zou een cycle geven)
+	%resultaat: ok, isObject( NewParent is gelijk aan het gegeven object), isChild (NewParent is child van gegeven object), isParent (NewParent is al parent, of rechtlijnige voorvader van een element uit de Parents chain), isParentChild (NewParent is een child van een element uit de Parents chain), isChildParent(NewParent is een rechtstreekse parent van Ã©Ã©n van de children van het object), cyclic (NewParent heeft het object direct of indirect als conditie, dus dat zou een cycle geven)
 	%alleen resultaat ok geeft aan dat het binnen onze mi-norm valt (zie ook datamodel bij ModelFragment)
 
 	default(Object,@nil,RealObject),
@@ -2048,7 +2048,7 @@ norm_quantitySpace(_M,CR:changeRequestor, O : requestor = object):->
 	then
 		CR->>impossible('The quantity space has no values defined',O),
 
-	%c) Meer dan één zero punt
+	%c) Meer dan Ã©Ã©n zero punt
 	ZeroPoints = Values<<-find_all(and(
 						@arg1?valueName?makeGarp == 'Zero',
 						@arg1?type == point)),

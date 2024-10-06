@@ -12,7 +12,7 @@ Homer code except where gp3 mentioned
 
 variable(derivative,bool,get,"@on when this is a derivative value").
 variable(valueReference,valueReference,get,"Reference to qs value").
-variable(quantityRoute, chain, none). %route van geïmporteerde fragmenten om vanuit
+variable(quantityRoute, chain, none). %route van geÃ¯mporteerde fragmenten om vanuit
 									%deze value bij de bijbehorende quantity te komen
 
 %%
@@ -146,7 +146,7 @@ checkSetValue(V, R: chain, _D: bool, State: '{condition,consequence}',
 				VR: valueReference, MF: modelFragment,
 				CR: changeRequestor):->
 
-	%als wij hoger in de hiërarchie zitten mag het niet
+	%als wij hoger in de hiÃ«rarchie zitten mag het niet
 	%gp3 not only will it be necessary that our fragment is part of the route for the new value
 	%our value must be connected to the same routed quantity as the lower
 	%so our route must be the top part of the lower route
@@ -160,7 +160,7 @@ checkSetValue(V, R: chain, _D: bool, State: '{condition,consequence}',
 		CR->>impossible(
 			string('This quantity already has a value in the more general %s "%s"', V?fragment?displayTypeName,V?fragment?name),V?fragment),
 
-	%als we lager in de hiërarchie zitten verdwijnen wij, al dan niet stilzwijgend
+	%als we lager in de hiÃ«rarchie zitten verdwijnen wij, al dan niet stilzwijgend
 	%gp3 The lower-level value will only disappear if
 	%it is connected to the same routed quantity as the higher
 	%so not only will the MF of the new value have to be part of the quantityroute of receiver

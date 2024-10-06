@@ -8,7 +8,7 @@ Definitie garpAttribute class
 		  "definition of garpAttribute element of model fragments"
 		 ).
 
-variable(instanceRoute, chain, none). %route van geïmporteerde fragmenten om vanuit
+variable(instanceRoute, chain, none). %route van geÃ¯mporteerde fragmenten om vanuit
 									%dit attribute bij de bijbehorende garpInstance te komen
 
 variable(valueReference,valueReference,both,"Reference to the attribute value").

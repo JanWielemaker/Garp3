@@ -14,8 +14,8 @@ Most code is legacy homer code, so dutch comments
 		 ).
 
 variable(sketchState,{normal, %dus een conditie of een consequentie
-			imported, %geïmporteerd uit een ander sketch
-			parent, %geïmporteerd uit een parent sketch
+			imported, %geÃ¯mporteerd uit een ander sketch
+			parent, %geÃ¯mporteerd uit een parent sketch
 			fixed %een vast element, dat altijd aanwezig is
 		       },get,"State of the element in the sketch it is displayed in"
 	).
@@ -386,7 +386,7 @@ placementPoint(VE,
 	
 	%gp3 0.4.11: 'spot' and 'defaultSpot' strategy for finding a spot for an element
 	%this default implementation still looks from some point (now in Arg) for an empty spot
-	%makkelijk is dat niet en daarom zoeken we alleen maar één richting
+	%makkelijk is dat niet en daarom zoeken we alleen maar Ã©Ã©n richting
 	%(welke wordt bepaald door placementPointSearchMove, zodat het te overriden is)
 
 	%STRATEGY SPOT:
@@ -751,7 +751,7 @@ constrainSub(VE, SubElement: subelement = sketchVisualElement,
 	"Make spatial relation keeping receiver and subelement on same relative place and register" ::
 	%dus de spatial wordt gemaakt en we maken een hyper voor isMoveTogetherSub hierboven
 
-	%een subelement kan maar één super hebben
+	%een subelement kan maar Ã©Ã©n super hebben
 	SubElement->>delete_hypers(moveTogetherSuper),
 
 	constrainDistance(VE,SubElement,Constraint), %prolog helpers: de echte constraint

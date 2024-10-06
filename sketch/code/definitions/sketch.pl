@@ -104,7 +104,7 @@ layOutInfo(SK,
 	"Save lay_out info with infoFor for access by receiver" ::
 	%Het mf slaat dus info op over layout van I in de editor van de SK
 	%hierbij kan nog de route van I worden meegegeven wanneer het onderdeel is van een
-	%geïmporteerde sketch.
+	%geÃ¯mporteerde sketch.
    
    get(I, name, IName), 
    debug(sketch(layout), 'Set layoutInfo in sketch ~w for Item: ~w, Key: ~w, V: ~w',[SK, IName, Key, V]),   
@@ -186,8 +186,8 @@ layOutInfo(SK,
 %
 layOutInfo(_SK,I,Key,Route,ThisLevelOnly,V):<-
 	%hij is niet aanwezig in deze sketch,
-	%misschien is ie dan aanwezig in de sketch waaruit hij geïmporteerd komt (als er een route is)
-	%het eerste element van Route wijst naar het in deze sketch geïmporteerde sketch
+	%misschien is ie dan aanwezig in de sketch waaruit hij geÃ¯mporteerd komt (als er een route is)
+	%het eerste element van Route wijst naar het in deze sketch geÃ¯mporteerde sketch
 
         debug(sketch(layout), 'Get layoutInfo for sketch.pl 2',[]), 
 	ThisLevelOnly \== @on, %gp3 1.0: explicitly asked not to recurse?

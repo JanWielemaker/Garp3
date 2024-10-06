@@ -4,7 +4,7 @@ Definitie commandhandler contextPopup
 Vervangt: handler_group voor een context menu.
 Deze commandhandler is erg gerelateert aan de commandhandler popupCommand: het is een 
 popupCommand die is ingepakt in een handler_group. Hierbij worden de volgende recognisers
-geïnstalleerd:
+geÃ¯nstalleerd:
 -op de rechterknop een popup_gesture voor het popupCommand.
 -op de linkerknop dubbelklik een click_gesture voor het default item uit het popupCommand.
 

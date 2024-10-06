@@ -15,7 +15,7 @@ Die twee connectFirstArgument / connectSecondArgument kunnen dus overruled worde
 wel de kleur van de link goed gezet worden.
 
 updateDisplay MOET updateRelationLinks aanroepen (ivm de kleur) of send_super gebruiken.
-worden geïmplementeerd.
+worden geÃ¯mplementeerd.
  
 Zie visualElement
 
@@ -526,7 +526,7 @@ canHide(_VE):->
 
 %%
 checkDisplayed(VE):->
-	%hide wanneer één vd twee argumenten hidden is of wanneer onze hidden flag staat
+	%hide wanneer Ã©Ã©n vd twee argumenten hidden is of wanneer onze hidden flag staat
 
 	if (
 		@on = VE?firstArgument<<-displayed,

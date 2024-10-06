@@ -345,7 +345,7 @@ changeApplied_changeSketchScenarioDef(D,CR):->
 	D->>fillDefList,
 	D?defList_member->>selection(Selected), 
 
-	%ok, als Selected gelijk is aan het object van de CR én aan de interne <-def
+	%ok, als Selected gelijk is aan het object van de CR Ã©n aan de interne <-def
 	%dan moeten we opnieuw inlezen
 
 	if

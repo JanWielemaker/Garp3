@@ -21,8 +21,8 @@ copyright University of Amsterdam 2011
 %	1: determine the multiplied quantities and qspaces
 %
 %	2: find all relevant points:
-%	   Set 1 = A & LM’s qspace A
-%	   Set 2 = B & LM’s qspace B
+%	   Set 1 = A & LMÂ’s qspace A
+%	   Set 2 = B & LMÂ’s qspace B
 %
 %	3: Get all relations between points for each set (also pointer
 %	equalities?)

@@ -217,7 +217,7 @@ recursiveFillParentList(D,
 
 	%we hebben (itt versies voor multiple inheritance) geen key nodig
 	%die een entry in de lijst qua weergave uniek maakt: elke naam en elk
-	%object komt maar één keer voor
+	%object komt maar Ã©Ã©n keer voor
 
 	List->>append(dict_item(HO,S,HO)),
 	%recursie:

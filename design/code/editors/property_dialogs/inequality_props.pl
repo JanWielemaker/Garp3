@@ -301,7 +301,7 @@ setArgumentsDisplay(D):->
 
 %
 pl_setArgumentsDisplay_INP(List,Prepend,Arg,ArgImported,currentValue,_Point):-
-	%als de quantity geïmporteerd is, is de instantie dat ook, dus daar zetten we het bij
+	%als de quantity geÃ¯mporteerd is, is de instantie dat ook, dus daar zetten we het bij
 	List->>append(dict_item(string('%sInstance: %s%s',Prepend,Arg?garpInstance?name,ArgImported))),
 	List->>append(dict_item(string('%sQuantity: %s',Prepend,Arg?name))),
 	List->>append(dict_item(string('%sVALUE',Prepend))).

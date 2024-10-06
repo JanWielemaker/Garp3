@@ -1476,7 +1476,7 @@ displaySketchObject(VE,
 	%opgehaald wordt. Het element wordt dan meteen afgebeeld.
 	%wanneer er een importedMFElement is meegestuurd wordt de instance daar een sub van
 
-	%sub van geïmporteerd fragment?
+	%sub van geÃ¯mporteerd fragment?
 	default(IMF,@nil,RC),
 
 	(
@@ -1666,7 +1666,7 @@ findFirstElement(VE,
 	SketchElement: any,
 	ClassName: [name],
 	Element: graphical):<-
-	%als findElements, maar geeft maar één element terug (eerstgevonden)
+	%als findElements, maar geeft maar Ã©Ã©n element terug (eerstgevonden)
 	%en alleen sketchVisualElement subs
 	
 	Element = VE?client?graphicals<<-find(and(
@@ -1791,7 +1791,7 @@ Combination: [{elementtype|any}/{[State,...]|any},....] of [{elementtype|any},..
 State: condition|consequence|imported|parent|fixed	
 
 Voor AllowedSketches, DisallowedSketches, AllowedSelectionTypes en de Statelijst in AllowedCombinations
-geldt dat er geen lijst hoeft te worden gebruikt als het om maar één element gaat.
+geldt dat er geen lijst hoeft te worden gebruikt als het om maar Ã©Ã©n element gaat.
 
 Voorbeeld
 checkEditorState(VE,[processSketch,agentSketch],any,2,

@@ -196,7 +196,7 @@ conditionalIn(MF,
 
 %%
 isIncomplete(MF):->
-	%slaagt als er een probleem is mbt de structuurregel: alle instanties (lokaal of geïmporteerd) van ENTITIES moeten met elkaar verbonden zijn (niet via agents) met configuraties of identities
+	%slaagt als er een probleem is mbt de structuurregel: alle instanties (lokaal of geÃ¯mporteerd) van ENTITIES moeten met elkaar verbonden zijn (niet via agents) met configuraties of identities
 
 	\+ MF->>isComplete. %omdraaien
 %
@@ -382,7 +382,7 @@ layOutInfo(MF,
 	"Save lay_out info with infoFor for access by receiver" ::
 	%Het mf slaat dus info op over layout van I in de editor van de MF
 	%hierbij kan nog de route van I worden meegegeven wanneer het onderdeel is van een
-	%geïmporteerd fragment.
+	%geÃ¯mporteerd fragment.
 
 	default(Route,new(chain),RealRoute),
 	if
@@ -427,8 +427,8 @@ layOutInfo(MF,
 %
 layOutInfo(_MF,I,Key,Route,ThisLevelOnly,V):<-
 	%hij is niet aanwezig in dit fragment,
-	%misschien is ie dan aanwezig in het fragment waaruit hij geïmporteerd komt (als er een route is)
-	%het eerste element van Route wijst naar het in dit fragment geïmporteerde fragment
+	%misschien is ie dan aanwezig in het fragment waaruit hij geÃ¯mporteerd komt (als er een route is)
+	%het eerste element van Route wijst naar het in dit fragment geÃ¯mporteerde fragment
 
 	ThisLevelOnly \== @on, %gp3 1.0: explicitly asked not to recurse?
 	Route \== @default,
@@ -696,7 +696,7 @@ checkAllUp(MF, Code: code,
 				_ParentsOnly:  [bool] %def = @off
 			):->
 
-	/*run de code bij alle geïmporteerde fragmenten. Slaagt als de code ergens
+	/*run de code bij alle geÃ¯mporteerde fragmenten. Slaagt als de code ergens
 		slaagt. De code wordt bij alle parents en alle conditionele fragmenten
 		gerunt, en recursief weer bij al hun parents/conditionele fragmenten.
 		Er hoort hier geen cycle in te zitten.
@@ -709,7 +709,7 @@ checkAllUp(MF, Code: code,
 	Code->>forward(MF),!. %deze zelf
 %
 checkAllUp(MF, Code: code, _ThisOneToo: [bool], ParentsOnly: [bool]):->
-	%we maken een chain voor alle geïmporteerde objecten
+	%we maken een chain voor alle geÃ¯mporteerde objecten
 
 	Imported = MF<<-parents,
 	if
@@ -730,7 +730,7 @@ checkAllDown(MF,
 	/*
 	Als checkAllUp, maar dan voor alle modelfragmenten die dit fragment "importeren" (en
 	recursief), dwz alle children en fragmenten waarin dit fragment conditioneel is.
-	Slaagt wanneer Code bij één van die fragmenten slaagt. @arg1 is het fragment.
+	Slaagt wanneer Code bij Ã©Ã©n van die fragmenten slaagt. @arg1 is het fragment.
 	Dit dus verder naar beneden/boven (het is maar hoe je het ziet)
 	Als ThisOneToo = @on wordt ook dit fragment zelf gecheckt.
 	Als ChildrenOnly = @on worden niet conditioneel importerende fragmenten gecheckt
@@ -928,7 +928,7 @@ pl_checkChangeMF_type(MF,CR):-
 %
 pl_checkChangeMF_imports(MF,CR):-
 /*
-	Als wij het gewijzigde MF als conditie hebben (parent, importerend of we zijn het), en wij zijn conditioneel in één van de parents, dan is er een cycle.
+	Als wij het gewijzigde MF als conditie hebben (parent, importerend of we zijn het), en wij zijn conditioneel in Ã©Ã©n van de parents, dan is er een cycle.
 	Voor cycle detectie is het voldoende om alleen te letten op direct conditioneel: indirect conditioneel verloopt toch altijd via een direct conditionele met een cycle. (scheelt feedback, zie ook checkChange_newConditionalFragment
 */
 	Object = CR<<-object,
@@ -1874,7 +1874,7 @@ addNewAttribute(MF, Instance: garpInstance, Route: chain, State: name,
 	A *= garpAttribute(MF, Def,Val, Remarks),
 	Instance->>addSubelement(A), %dat doet de instantie
 	A->>instanceRoute(Route),
-		%de route naar de eventueel in het fragment geïmporteerde instance
+		%de route naar de eventueel in het fragment geÃ¯mporteerde instance
 
 	%onze configuratieve informatie
 	(   State = 'condition'
@@ -1989,7 +1989,7 @@ addNewQuantity(MF,Instance: garpInstance, Route: chain, State: name, Def: garpQu
 
 	Q *= garpQuantity(MF,Def,QS, Remarks),
 	Instance->>addSubelement(Q), %dat doet de instantie
-	Q->>instanceRoute(Route), %de route naar de eventueel in het fragment geïmporteerde instance
+	Q->>instanceRoute(Route), %de route naar de eventueel in het fragment geÃ¯mporteerde instance
 
 	%gp3 0.3.16: we added the quantity assumptions
 	Q->>quantityAssumptions(Assumptions?copy), %copy just in case
@@ -3576,7 +3576,7 @@ exportSystemElements(MF,StateName: {condition, consequence},BasisTab: int,
 exportConditionalParameters(MF,BasisTab: int, ExportTable: lookupTable, F: file, Counter: number):->
 
 	%schijft de parameters weg die als conditioneel beschouwd kunnen worden
-	%dit zijn de lokale conditionele parameters + álle relevante geïmporteerde
+	%dit zijn de lokale conditionele parameters + Ã¡lle relevante geÃ¯mporteerde
 	%parameters, die dus gebruikt worden in dit MF bij conditionele of consequentiele
 	%values en relaties.
 
@@ -3594,7 +3594,7 @@ exportConditionalParameters(MF,BasisTab: int, ExportTable: lookupTable, F: file,
 	),
 	Local->>sort(?(@arg1?first?garpInstance?name,compare,@arg2?first?garpInstance?name)),
 
-	%2. geïmporteerd: altijd checken op route (want niet geïmporteerde laten we
+	%2. geÃ¯mporteerd: altijd checken op route (want niet geÃ¯mporteerde laten we
 	%hier zitten
 
 	Imported *= chain,
@@ -3685,7 +3685,7 @@ exportConditionalParameters(MF,BasisTab: int, ExportTable: lookupTable, F: file,
 
 %
 exportParameters_CollectQuantities(MF,R: 'parRelation|calculus',Quantities: chain, BasisRoute: chain):->
-	%helper bij exportParameters: peutert de geïmporteerde quantities die bij (lokale) relaties horen
+	%helper bij exportParameters: peutert de geÃ¯mporteerde quantities die bij (lokale) relaties horen
 	%eruit en kijkt of ze niet al geexporteerd zijn. Zoniet, dan gaat quantity/route tuple
 	%in Quantities
 
@@ -3697,7 +3697,7 @@ exportParameters_CollectQuantities(MF,R: 'parRelation|calculus',Quantities: chai
 		Q1 *= tuple(R?argument1,TotalRoute1),
 		if
 		(
-			\+ TotalRoute1->>empty,	%alleen geïmporteerde quantities (volgens de hele route vanwege calculi)
+			\+ TotalRoute1->>empty,	%alleen geÃ¯mporteerde quantities (volgens de hele route vanwege calculi)
 			\+ Quantities->>find(->>(@arg1,equal,Q1))
 		)
 		then
@@ -3898,8 +3898,8 @@ exportRelation(MF, R: parRelation, ExportTable: lookupTable, S: string):<-
 
 	%2: valuecorrespondence
 	/*LET OP: ARGUMENTEN ZIJN ANDERSOM:
-	In vgarp: wijst de pijl van de beïnvloedende naar de beïnvloede
-	In garp: is het eerste argument de beïvloede..
+	In vgarp: wijst de pijl van de beÃ¯nvloedende naar de beÃ¯nvloede
+	In garp: is het eerste argument de beÃ¯vloede..
 	2.1: het kan ook nog eens van een derivative zijn
 	2.1: het kan ook nog eens gemirrored zijn
 	*/
@@ -3931,8 +3931,8 @@ exportRelation(MF, R: parRelation, ExportTable: lookupTable, S: string):<-
 
 	%3: qscorrespondence
 	/*LET OP: ARGUMENTEN ZIJN ANDERSOM:
-	In vgarp: wijst de pijl van de beïnvloedende naar de beïnvloede
-	In garp: is het eerste argument de beïvloede..
+	In vgarp: wijst de pijl van de beÃ¯nvloedende naar de beÃ¯nvloede
+	In garp: is het eerste argument de beÃ¯vloede..
 	2.1: het kan ook nog eens van een derivative afkomen
 	*/
 	R->>instance_of(correspondence),
@@ -3983,8 +3983,8 @@ exportRelation(MF, R: parRelation, ExportTable:lookupTable, S: string):<-
 
 	%5: garpQuantityRelation (prop en inf)
 	/*LET OP: ARGUMENTEN ZIJN ANDERSOM:
-	In vgarp: wijst de pijl van de beïnvloedende naar de beïnvloede
-	In garp: is het eerste argument de beïvloede..
+	In vgarp: wijst de pijl van de beÃ¯nvloedende naar de beÃ¯nvloede
+	In garp: is het eerste argument de beÃ¯vloede..
 	*/
 	R->>instance_of(garpQuantityRelation),
 

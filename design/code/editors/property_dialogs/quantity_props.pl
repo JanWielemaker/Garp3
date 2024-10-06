@@ -625,7 +625,7 @@ changeApplied_deleteQuantity(D,
 %%
 changeApplied_changeQuantitySpace(D,
 	_CR : changeRequestor):->
-	%Het kan zijn dat dit één van de mogelijke quantity spaces bij de definitie is
+	%Het kan zijn dat dit Ã©Ã©n van de mogelijke quantity spaces bij de definitie is
 	%dus we moeten de lijst opnieuw vullen, en de preview ook opnieuw doen
 	%we checken niet, we doen gewoon
 
