@@ -10,7 +10,7 @@ Part of Garp3 - see copyright notice
 		  frame,
 		  "The garp3 main menu"
 		 ).
-		 
+
 variable(fixedWidth,int,both). %width of the dialogs inside the frame
 variable(sideMargin,int,both). %how much space left and right inside tools
 variable(holder,dialog,both).
@@ -25,7 +25,7 @@ initialise(G):->
 	%Display the main menu
 	G->>fixedWidth(405),
 	G->>sideMargin(10),
-	
+
 	G->+initialise(@app?name),
 	G->>application(@app),
 	G->>kind(toplevel),
@@ -76,14 +76,22 @@ onDestroy(G):-> % JL
 	    send(@app, closeCurrentModel)
 	),
 
-	% First close the open 
+	% First close the open
 	G->>wm_delete, %default done_message of this frame
 	%only die if not in debug
 	(
 		runMode(debug)
 	;
-		@pce->>die
+		die
 	).
+
+die :-
+	thread_self(main),
+	!,
+	halt.
+die :-
+	thread_signal(main, halt).
+
 %%
 
 
@@ -107,7 +115,7 @@ reorderTools(G):->
 %%
 toggleTool(G, Tool: dialog_group):->
 	%gp3 0.2 hide or show the content part of a tool
-	
+
 	C= Tool<<-content,
 	if
 		@on = C<<-displayed
@@ -123,14 +131,14 @@ toggleTool(G, Tool: dialog_group):->
 	),
 	%reorder all tools
 	G->>reorderTools.
-%%	
+%%
 
 %%
 collapse_expand_dlg(G, Tool: dialog_group, OnOrOff: bool):->
 	%helper for application, who closes some stuff with us
 	%(but we use it took in initialise)
 	%this is for legacy reasons, can be changed in next version
-	
+
 	catch(C = Tool<<-content,_,fail),
 	unless
 		OnOrOff = C<<-displayed
@@ -179,7 +187,7 @@ typed(D, E: event_id):->
 %%%%% HELPTOOL %%%%%
 createHelpTool(G, HT: dialog_group):<-
 	%gp3 0.2 Create the logotool
-	
+
 	HT *= dialog_group(helpTool,group),
 	G->>helpTool(HT),
 	HT->>width(G?fixedWidth),
@@ -218,7 +226,7 @@ createModelTool(G, MT: dialog_group):<-
 	Box->>colour('#D4D4D4'),
 	MT->>display(Box,point(0,0)),
 	MT->>attribute(collapsedHeight,Box?bottom_side),
-	
+
 	%content for the modelTool
 	C *= dialog_group(content,group),
 	MT->>attribute(content,C),
@@ -233,11 +241,11 @@ createModelTool(G, MT: dialog_group):<-
 	C->>display(Save,point(Open?right_side + 1, 1)),
 	get_image(mainmenu,'b3',SaveAsImg),
 	get_image(mainmenu,'b3g',SaveAsImgG),
-	SaveAs *= clickImage(saveAs,SaveAsImg,->>(@app,saveAs),SaveAsImgG,'Save current model to new file'),	
+	SaveAs *= clickImage(saveAs,SaveAsImg,->>(@app,saveAs),SaveAsImgG,'Save current model to new file'),
 	C->>display(SaveAs,point(Save?right_side + 1, 1)),
 	get_image(mainmenu,'b4',NewImg),
 	get_image(mainmenu,'b4g',NewImgG),
-	New *= clickImage(new,NewImg,->>(@app,newModel),NewImgG,'Start new model'),	
+	New *= clickImage(new,NewImg,->>(@app,newModel),NewImgG,'Start new model'),
 	C->>display(New,point(SaveAs?right_side + 1, 1)),
 	Line *= line(New?right_side + 1,0, New?right_side + 1,Open?bottom_side + 2),
 	Line->>pen(1),
@@ -245,22 +253,22 @@ createModelTool(G, MT: dialog_group):<-
 	C->>display(Line),
 	get_image(mainmenu,'b5',OpenLegacyImg),
 	get_image(mainmenu,'b5g',OpenLegacyImgG),
-	OpenLegacy *= clickImage(openLegacy,OpenLegacyImg,->>(@app,loadLegacy),OpenLegacyImgG,'Open model in legacy mode'),	
+	OpenLegacy *= clickImage(openLegacy,OpenLegacyImg,->>(@app,loadLegacy),OpenLegacyImgG,'Open model in legacy mode'),
 	C->>display(OpenLegacy,point(Line?right_side + 1, 1)),
 	get_image(mainmenu,'b6',ExportLegacyImg),
 	get_image(mainmenu,'b6g',ExportLegacyImgG),
-	ExportLegacy *= clickImage(exportLegacy,ExportLegacyImg,->>(@app,exportLegacy),ExportLegacyImgG,'Save model in legacy mode'),	
-	C->>display(ExportLegacy,point(OpenLegacy?right_side + 1, 1)),	
+	ExportLegacy *= clickImage(exportLegacy,ExportLegacyImg,->>(@app,exportLegacy),ExportLegacyImgG,'Save model in legacy mode'),
+	C->>display(ExportLegacy,point(OpenLegacy?right_side + 1, 1)),
 	CBox *= box(G?fixedWidth,Open?bottom_side + 2),
 	CBox->>pen(1),
 	CBox->>colour('#D4D4D4'),
 	C->>display(CBox,point(0,0)),
 	C->>height(CBox?bottom_side),
-	
+
 	MT->>display(C,point(0,Box?bottom_side - 1)), %overlap
-	
+
 	MT->>height(C?bottom_side),
-	G->>updateModelTool. 
+	G->>updateModelTool.
 %%
 
 
@@ -301,17 +309,17 @@ doUpdateModelTool(_MT,new,Status,@off,SaveAs,@off):-!,
 		Status = 'Empty model',
 		SaveAs = @off
 	).
-		
+
 doUpdateModelTool(_MT,loaded,Status,@on,@on,@on):-!,
 	%existing model. Changed?
 	%(save is allways on to give the opportunity to save layout changes)
 	Changed = @model<<-changed,
-	
+
 	%gp3 1.4.0: add language if there are more than 1
-	
+
 	/*
 	%gp3 1.4.1: BB requested this to be turned off..
-	
+
 	if
 		1 = @model?translator?languages<<-size
 	then
@@ -338,7 +346,7 @@ doUpdateModelTool(_MT,loaded,Status,@on,@on,@on):-!,
 	else
 	(
 		Status *= string('%s - unchanged',@model?name)
-	).	
+	).
 
 doUpdateModelTool(_MT,legacy,Status,@off,@off,@off):-!,
 	%legacy model, we cannot save, but we can open and create a new one
@@ -368,7 +376,7 @@ createBuildTool(G, BT: dialog_group):<-
 	BT->>display(Box,point(0,0)),
 	Box->>hide, %to the back
 	BT->>attribute(collapsedHeight,Box?bottom_side),
-	
+
 	%content for the buildTool
 	C *= dialog_group(content,group),
 	BT->>attribute(content,C),
@@ -389,30 +397,30 @@ createBuildTool(G, BT: dialog_group):<-
 	C->>display(AttributesL,point(Attributes?right_side - AttributesL?width,Attributes?top_side)),
 	get_image(mainmenu,'d3',ConfImg),
 	get_image(mainmenu,'d3g',ConfImgG),
-	Confs *= clickImage(configurations,ConfImg,->>(@app,openConfigurationDefinitions),ConfImgG,'Open configuration definitions editor'),	
+	Confs *= clickImage(configurations,ConfImg,->>(@app,openConfigurationDefinitions),ConfImgG,'Open configuration definitions editor'),
 	C->>display(Confs,point(Attributes?right_side, 2)),
 	ConfsL *= label(confsCount,'0',font(helvetica,roman,10)),
 	ConfsL->>width(0), %recompute size
 	C->>display(ConfsL,point(Confs?right_side - ConfsL?width,Confs?top_side)),
 	get_image(mainmenu,'d4',QImg),
 	get_image(mainmenu,'d4g',QImgG),
-	QD *= clickImage(quantities,QImg,->>(@app,openQuantityDefinitions),QImgG,'Open quantity definitions editor'),	
+	QD *= clickImage(quantities,QImg,->>(@app,openQuantityDefinitions),QImgG,'Open quantity definitions editor'),
 	C->>display(QD,point(Confs?right_side, 2)),
 	QDL *= label(qdCount,'0',font(helvetica,roman,10)),
 	QDL->>width(0), %recompute size
 	C->>display(QDL,point(QD?right_side - QDL?width,QD?top_side)),
 	get_image(mainmenu,'d5',QSImg),
 	get_image(mainmenu,'d5g',QSImgG),
-	QS *= clickImage(quantitySpaces,QSImg,->>(@app,openQuantitySpaces),QSImgG,'Open quantity space definitions editor'),	
+	QS *= clickImage(quantitySpaces,QSImg,->>(@app,openQuantitySpaces),QSImgG,'Open quantity space definitions editor'),
 	C->>display(QS,point(QD?right_side, 2)),
 	QSL *= label(qsCount,'0',font(helvetica,roman,10)),
 	QSL->>width(0), %recompute size
 	C->>display(QSL,point(QS?right_side - QSL?width,QS?top_side)),
 	get_image(mainmenu,'d6',AboutImg),
 	get_image(mainmenu,'d6g',AboutImgG),
-	About *= clickImage(aboutModel,AboutImg,->>(@app,openMetadata),AboutImgG,'About this model and Sketch'),	
+	About *= clickImage(aboutModel,AboutImg,->>(@app,openMetadata),AboutImgG,'About this model and Sketch'),
 	C->>display(About,point(QS?right_side + 2, 2)),	%extra space
-	
+
 	%second row
 	get_image(mainmenu,'e1',ScenariosA),
 	get_image(mainmenu,'e1g',ScenariosI),
@@ -456,9 +464,9 @@ createBuildTool(G, BT: dialog_group):<-
 	C->>display(CBox,point(0,0)),
 	CBox->>hide, %to the back
 	C->>height(CBox?bottom_side + 1),
-	
+
 	BT->>display(C,point(0,Box?bottom_side + 1 )), %space
-	
+
 	BT->>height(C?bottom_side),
 	G->>updateBuildTool.
 %%
@@ -470,7 +478,7 @@ updateBuildTool(G):->
 	%and show what must be shown
 	doUpdateBuildTool(BT,S, Status, Ent, EntCount, Attr, AttrCount,
 			Conf, ConfCount, QD, QDCount, QS, QSCount, About,
-			Sce, SceCount, CurSc, MF, MFCount, CurMF, 
+			Sce, SceCount, CurSc, MF, MFCount, CurMF,
 			Ag, AgCount, Ass, AssCount,AboutModel ),
 	BT?status_member->>selection(Status),
 	G->>buildSetElement(BT,entities,Ent,entitiesCount,EntCount),
@@ -498,7 +506,7 @@ doUpdateBuildTool(_BT,_,Status,@on,EntCount,@on,AttrCount,
 	@on, SceCount, CurSc, @on, MFCount, CurMF,
 	@on, AgCount, @on, AssCount, @on
 		):-
-		
+
 	LT = @model<<-lastChangeTime,
 	if
 		LT = @nil
@@ -544,8 +552,8 @@ buildSetElement(_G, BT: dialog_group, ElName: name, Active: bool, CountElName: [
 		CountElName = @default
 	do
 	(
-		(CountEl = BT<<-member(CountElName) 
-		 ; 
+		(CountEl = BT<<-member(CountElName)
+		 ;
 		 CountEl = C<<-member(CountElName)
 		),
 		CountEl->>displayed(Active), %hide when inactive
@@ -575,14 +583,14 @@ createSimulateTool(G, ST: dialog_group):<-
 	ST->>display(Box,point(0,0)),
 	Box->>hide, %to the back
 	ST->>attribute(collapsedHeight,Box?bottom_side),
-	
+
 	%content for the simulate tool
 	C *= dialog_group(content,group),
 	ST->>attribute(content,C),
 	C->>width(G?fixedWidth),
 	get_image(mainmenu,'g1',SceA),
 	get_image(mainmenu,'g1g',SceI),
-	%Sce *= clickImage(scenarios,SceA,->>(@app,startVisualize),SceI,when(@app?modelState == legacy, 'Select a scenario to simulate', when(@app?model?inputSystems?size == 1, create(string,'Simulate scenario: \'%s\'' , @app?model?inputSystems?head?name), 'Select a scenario to simulate')), 'Select a scenario to simulate'), % JL 
+	%Sce *= clickImage(scenarios,SceA,->>(@app,startVisualize),SceI,when(@app?modelState == legacy, 'Select a scenario to simulate', when(@app?model?inputSystems?size == 1, create(string,'Simulate scenario: \'%s\'' , @app?model?inputSystems?head?name), 'Select a scenario to simulate')), 'Select a scenario to simulate'), % JL
 	Sce *= clickImage(scenarios,SceA,->>(@app,startVisualize),SceI,when(@app?model?modelState == legacy, 'Select a scenario to simulate', when(@app?model?inputSystems?size == 1, create(string,'Simulate scenario: \'%s\'' , @app?model?inputSystems?head?name), 'Select a scenario to simulate')), 'Select a scenario to simulate'), % JL. Fixed by JJ: I saw there was no tooltip
 	C->>display(Sce,point(1,1)),
 	get_image(mainmenu,'g2',CSceA),
@@ -591,11 +599,11 @@ createSimulateTool(G, ST: dialog_group):<-
 	C->>display(CSce,point(Sce?right_side + 1, 1)),
 	get_image(mainmenu,'g3',FullA),
 	get_image(mainmenu,'g3g',FullI),
-	Full *= clickImage(full,FullA,->>(@app,startFullSimulation,@app?model?lastEditedIS),FullI,create(string,'Full simulation scenario: \'%s\'', @app?model?lastEditedIS?name), 'Full simulation'),	
+	Full *= clickImage(full,FullA,->>(@app,startFullSimulation,@app?model?lastEditedIS),FullI,create(string,'Full simulation scenario: \'%s\'', @app?model?lastEditedIS?name), 'Full simulation'),
 	C->>display(Full,point(CSce?right_side + 1, 1)),
 	get_image(mainmenu,'g4',OpenSimA),
 	get_image(mainmenu,'g4g',OpenSimI),
-	Open *= clickImage(openSim,OpenSimA,->>(@app,reopenVisualize),OpenSimI,'Open the simulator to its current state or a saved simulation'),	
+	Open *= clickImage(openSim,OpenSimA,->>(@app,reopenVisualize),OpenSimI,'Open the simulator to its current state or a saved simulation'),
 	C->>display(Open,point(Full?right_side + 1, 1)),
 	Line *= line(Open?right_side + 1,0, Open?right_side + 1,Open?bottom_side + 2),
 	Line->>pen(1),
@@ -603,13 +611,13 @@ createSimulateTool(G, ST: dialog_group):<-
 	C->>display(Line),
 	get_image(mainmenu,'g5',TracerA),
 	get_image(mainmenu,'g5g',TracerI),
-	Tracer *= clickImage(tracer,TracerA,->>(@app,openTracer),TracerI,'Open trace window'),	
+	Tracer *= clickImage(tracer,TracerA,->>(@app,openTracer),TracerI,'Open trace window'),
 	C->>display(Tracer,point(Line?right_side + 1, 1)),
 	get_image(mainmenu,'g6',PrefsA),
 	get_image(mainmenu,'g6g',PrefsI),
-	Prefs *= clickImage(prefs,PrefsA,->>(@app,runPrefs,G),PrefsI,'Simulation preferences'),	
-	C->>display(Prefs,point(Tracer?right_side + 1, 1)),	
-	
+	Prefs *= clickImage(prefs,PrefsA,->>(@app,runPrefs,G),PrefsI,'Simulation preferences'),
+	C->>display(Prefs,point(Tracer?right_side + 1, 1)),
+
 	CBox *= box(G?fixedWidth, Prefs?bottom_side),
 	CBox->>pen(0),
 	CBox->>fill_pattern(Colour),
@@ -617,9 +625,9 @@ createSimulateTool(G, ST: dialog_group):<-
 	CBox->>hide, %to the back
 
 	C->>height(CBox?bottom_side),
-	
+
 	ST->>display(C,point(0,Box?bottom_side + 1)),
-	
+
 	ST->>height(C?bottom_side),
 	G->>updateSimulateTool.
 %%
@@ -676,13 +684,13 @@ doUpdateSimulateTool(_ST,_,'Ready',@on,CSce,Full,Open,@on):-
 		else
 			Open = @on %can choose a saved simulation
 	).
-		
+
 %%
-	
+
 %%%%% HELPTOOL %%%%%
 createAboutTool(G, AT: dialog_group):<-
 	%gp3 0.2 Create the logotool
-	
+
 	AT *= dialog_group(aboutTool,group),
 	G->>aboutTool(AT),
 	AT->>width(G?fixedWidth),
