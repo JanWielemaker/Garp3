@@ -19,7 +19,7 @@ be made executable started with ./startup.pl
 % JW: This check triggers one warning that is almost surely an error in
 % Garp in engine/transitions.pl:4800
 :-style_check(-no_effect).
-:-load_files([library(pce)], [if(not_loaded), silent(true)]).
+:-use_module(library(pce)).
 
 %mode is debug or nodebug
 
