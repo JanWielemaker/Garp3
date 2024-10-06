@@ -4,7 +4,7 @@ Formerly homer, so a lot of dutch comments
 
 PART OF Garp3. SEE COPYRIGHT NOTICE.
 Old homer code, except when gp3 is mentioned
- 
+
 */
 
 :-module(design,[]).
@@ -12,9 +12,10 @@ Old homer code, except when gp3 is mentioned
 :-op(900,fy,not). %for some reason, the one in helpers/prolog_helpers is ignored (module problem?)
 
 :- use_module(library(pce)).
+:- use_module(library(debug)).
 
 %main, wordt onderaan wel gerund
-/*garp3: the old homer code used a application object without a subclass. Called @app. 
+/*garp3: the old homer code used a application object without a subclass. Called @app.
 We redeclare @app as an instance of garp3, so the definition is gone here.
 */
 
@@ -25,8 +26,8 @@ main:- % JL
 	%new(@model, garpModel). % works
 	new(@model, var),
 	new(EmptyModel, garpModel),
-	
-	% Call the first model @model1 
+
+	% Call the first model @model1
 	gensym(model, NewModelName),
 	send(EmptyModel, name_reference, NewModelName),
 	get(@pce, object_from_reference, NewModelName, NewModel),
@@ -43,9 +44,9 @@ main:- % JL
 
 load_garp(_Class,File):-
 	%we used to use pce_autoload when not debugging
-	%but I changed that: we load everything (see the app startup.pl)	
+	%but I changed that: we load everything (see the app startup.pl)
 	ensure_loaded(File).
-	
+
 :- multifile
 	file_search_path/2.
 

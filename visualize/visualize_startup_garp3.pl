@@ -10,6 +10,7 @@ To start the visualize code for testing, use the call 'visigarp.'
 
 
 :- use_module(library(pce)).
+:- use_module(library(debug)).
 :- require([ forall/2
 	   , free_variables/2
 	   , random/3
@@ -18,12 +19,12 @@ To start the visualize code for testing, use the call 'visigarp.'
 
 
 :- use_module(library(pce_tagged_connection)).
-       
+
 /*dynamic etc for the visialize main source */
 
 :- dynamic
-        current_state/1, 
-        currentX/2, 
+        current_state/1,
+        currentX/2,
         currentY/2,
         type_of_file_first_opened/1,
         state_node_size/1,
@@ -43,18 +44,18 @@ To start the visualize code for testing, use the call 'visigarp.'
 :- multifile
 		set_pen/2, set_colour/3, position_text/3, shape_box/2, click_graphical/1,
 			click_graphical2/1, shift_click_graphical/1,settings/3.
-			
+
 %gp0.1 these preds are just like everywhere
 :- discontiguous
 		settings/2, settings/4.
-	
+
 /*
 dynamic etc for accessories(aggregation)
 */
 
 :-
 	dynamic temp_event_counter/2.
-	
+
 user:file_search_path(accessories,visualize('Accessories')).
 %user:file_search_path(quags,visualize('Quags')).
 
