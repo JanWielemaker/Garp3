@@ -42,8 +42,15 @@ setup_console :-
 message_hook(_Term, Kind, _Lines) :-
 		runMode(nodebug), %JJ: make sure we get the errors when developing
     (Kind == warning ; Kind == error),
-    catch(win_window_pos([show(true), activate]), _TrowArgument, fail),
+    activate_console,
     fail.
+
+:- if(current_predicate(win_window_pos/1)).
+activate_console :-
+	win_window_pos([show(true), activate]).
+:- else.
+activate_console.
+:- endif.
 
 %set basic searchpaths
 set_searchpaths:-
