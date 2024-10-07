@@ -1877,21 +1877,6 @@ etrace(solve_2ndorder_ir_add, [EffectsList], _Options):-
 	true
       ).
 
-%multiple resolved influence with sign addition
-etrace(solve_3rdorder_ir_add, [EffectsList], _Options):-
-	!,
-      (
-	@tracer->>tell(resolve)
-      ->
-	e_indent(2, I2),
-	forall(member(A/S/E, EffectsList), process_sign_add_item_3rdorder(A, S, E, I2)),
-	@tracer->>told,
-	!
-      ;
-	true
-      ).
-
-
 etrace(solve_ir_res, [TrQ, Sign], _Options):-
 	!,
       (
