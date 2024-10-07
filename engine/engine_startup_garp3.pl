@@ -14,9 +14,6 @@ PART OF Garp3. SEE COPYRIGHT NOTICE.
 %:-module(engine,[isa/2,quantity_space/3,smd/6,system_structures/4]).
 :-module(engine,[
 		 epsilon_state_type/2,
-		 get_all_simulation_quantity_instances/1,
-		 get_all_simulation_entity_instances/1,
-		 get_all_simulation_entity_and_quantity_instances/2,
 		 get_all_simulation_state_numbers/1
 		]).
 

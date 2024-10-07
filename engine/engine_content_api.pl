@@ -223,59 +223,6 @@ epsilon_type_of_state(_Status, _Tolist, _AllSuccessors, _EpsilonType):-
 	writef('\n***Warning: problem in determining epsilon type of state ***\n'),
 	fail.
 
-
-
-
-%%	get_all_simulation_quantity_instances(-QuantityList)
-%
-%	returns the set of quantity instances present in all states
-%
-%	simulation must be present
-%
-get_all_simulation_quantity_instances(QuantityList):-
-	generate_superstate(SMD),
-	SMD =.. [smd, _IS, _SE, parameters(PL), _PV, _PR, _SS, _SCE],
-	findall(Quantity, (member(P, PL),
-			   P =.. [_Gen, _Ent, Quantity, _, _QS]
-			   ), QuantityList).
-
-
-
-%%	get_all_simulation_entity_instances(-EntityList)
-%
-%	returns the set of entity instances present in all states
-%
-%	simulation must be present
-%
-get_all_simulation_entity_instances(EntityList):-
-	generate_superstate(SMD),
-	SMD =.. [smd, _IS, system_elements(SEList), _P, _PV, _PR, _SS, _SCE],
-	findall(EntityInstance, (member(SE, SEList),
-				 SE = instance(EntityInstance, Type),
-				 isa_instance(Type, entity)
-				 ), EntityList).
-
-
-%%	get_all_simulation_entity_and_quantity_instances(-EntityList, -QuantityList)
-%
-%	returns the set of entity instances and the set of quantity
-%	instances present in all states
-%
-%	simulation must be present
-%
-get_all_simulation_entity_and_quantity_instances(EntityList, QuantityList):-
-	generate_superstate(SMD),
-	SMD =.. [smd, _IS, system_elements(SEList), parameters(PL), _PV, _PR, _SS, _SCE],
-	findall(EntityInstance, (member(SE, SEList),
-				 SE = instance(EntityInstance, Type),
-				 isa_instance(Type, entity)
-				 ), EntityList),
-	findall(Quantity, (member(P, PL),
-			   P =.. [_Gen, _Ent, Quantity, _, _QS]
-			   ), QuantityList).
-
-
-
 %%	get_quantity_instances_for_state_entity(+StateNR, +Entity, -QuantityList)
 %
 %	returns the set of quantity instances associated with an
