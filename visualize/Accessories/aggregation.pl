@@ -14,7 +14,8 @@
         rec/1,
         edge_deleted/1,
         temp_event_counter/2,
-        trigger_conditions/3.
+        trigger_conditions/3,
+        to_be_retracted/1.
 :- multifile
         rec/1,
         trigger_conditions/3.

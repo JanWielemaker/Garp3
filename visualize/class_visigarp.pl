@@ -3257,7 +3257,7 @@ show_hide_transitive_reduction(F, @on):-
 %
 show_hide_transitive_reduction(F, OnOrOff):-
         reduce_digraph(state_graph),
-        forall(transitive_edge(state_graph, A, B, to),
+        forall(transitive_edge(state_graph, A, B),
             (
              writef('transitive edge %p -> %p  \n', [A, B]),
              show_hide_transition(F, A, B, OnOrOff)
@@ -3278,7 +3278,7 @@ show_hide_transitive_input_transitions(F, @on):-
 show_hide_transitive_input_transitions(F, OnOrOff):-
         reduce_digraph_input(state_graph),
         A = input,
-        forall(transitive_edge(state_graph, A, B, to),
+        forall(transitive_edge(state_graph, A, B),
             (
              writef('transitive edge %p -> %p  \n', [A, B]),
              show_hide_transition(F, A, B, OnOrOff)

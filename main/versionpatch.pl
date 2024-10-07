@@ -18,10 +18,11 @@ See copyright notice
 
 So:
 - use pl_versionPatch_data(M,Version) to define and ininitialise variables and other data that were added in Version.
-- use pl_versionPatch(M,OldVersion) to manipulate old data (probably in @old_slots) to get to the new version. All elements initialises in pl_versionPatch_addElements are there...
+- use pl_versionPatch(M,OldVersion) to manipulate old data (probably in
+@old_slots) to get to the new version.
 */
 
-:-discontiguous pl_versionPatch/2, pl_versionPatch_addElements/2.
+:-discontiguous pl_versionPatch/2.
 %
 
 pl_doVersionPatch(M,CurrentVersion,LowerVersion):-

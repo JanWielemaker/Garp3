@@ -27,8 +27,9 @@ PART OF Garp3. SEE COPYRIGHT NOTICE.
 	state_status/2,
 	state_from/2,
 	state_to/2,
-	    algorithm_switch/2, % new in GARP 2.0  FL, July 2004 (only one assertion though)
-	    assumption_culprit/3,
+        algorithm_switch/2, % new in GARP 2.0  FL, July 2004 (only one assertion though)
+        algorithm_option_switch/2,
+        assumption_culprit/3,
 	current_assumption/2,
 	smd/6,
 	system_structures/4,
