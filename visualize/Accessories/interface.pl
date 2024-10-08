@@ -500,8 +500,21 @@ str_list_to_str([Str|Rest], String):-
 	string_concat(Str, RestStr, String).
 
 
+%!	state_quantity_value(?State, ?QuantityValues)
+%
+%	Refacfored from class `quantityValuesDialog`
 
-
+state_quantity_value(State, qv{predicate:Pred,
+			       name:Name,
+			       entity:Entity,
+			       value:Val,
+			       quantity_space:QS,
+			       derivative: #{1: Der, 2: SOD, 3: TOD}}) :-
+	find_quantity_details(State,Name,Pred,_Type,Entity,_CVal,ValStruct,QS,Der),
+	find_2nd_derivative(State,Name, SOD, TOD), % SOD = 2nd der, TOD = 3rd der
+	%strip the parameter name of the value struct (if nescessary) [visigarp code]
+	term_to_atom(ValTerm,ValStruct),
+	strip_atomize(ValTerm,Val).
 
 
 /* for illustration purposes, this is what a transition predicate looks like:

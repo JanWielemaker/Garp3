@@ -35,14 +35,13 @@ initialise(D, State: int, Frame: frame):->
 	B->>tab_stops(vector(250)),
 
 	findall(Pred/Name/Entity/Val/QS/Der/SOD/TOD,
-		(
-			%gp3 1.4 added Name to the list of interesting stuff, we can use it to get design-time comments
-			find_quantity_details(State,Name,Pred,_Type,Entity,_CVal,ValStruct,QS,Der),
-			find_2nd_derivative(State,Name, SOD, TOD), % SOD = 2nd der, TOD = 3rd der
-			%strip the parameter name of the value struct (if nescessary) [visigarp code]
-			term_to_atom(ValTerm,ValStruct),
-			strip_atomize(ValTerm,Val)
-		),
+		state_quantity_value(State,
+				     qv{predicate:Pred,
+					name:Name,
+					entity:Entity,
+					value:Val,
+					quantity_space:QS,
+					derivative: #{1: Der, 2: SOD, 3: TOD}}),
 		QList),
 	sort(QList,SortedQList),
 	%we need the inputsystem again
